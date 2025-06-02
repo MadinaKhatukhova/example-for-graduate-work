@@ -1,18 +1,15 @@
 package ru.skypro.homework.dto;
 
-public class CreateOrUpdateComment {
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
+public class CreateOrUpdateComment {
     private String text;
 
-    public CreateOrUpdateComment(String text) {
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }
