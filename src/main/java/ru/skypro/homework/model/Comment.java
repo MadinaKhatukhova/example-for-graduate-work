@@ -28,11 +28,11 @@ public class Comment {
     private Integer pk;
     private String text;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne
     @JoinColumn(name = "ad_id")
-    private Ad ad;*/
+    private Ad ad;
 }
