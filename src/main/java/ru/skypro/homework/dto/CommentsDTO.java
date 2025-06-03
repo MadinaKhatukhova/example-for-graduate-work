@@ -5,11 +5,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CreateOrUpdateComment {
-    private String text;
+public class CommentsDTO {
+
+    private Integer count;
+    private List<CommentDTO> results;
 
 }

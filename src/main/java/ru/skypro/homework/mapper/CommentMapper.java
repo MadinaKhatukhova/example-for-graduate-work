@@ -1,17 +1,14 @@
 package ru.skypro.homework.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateOrUpdateComment;
-
-
-import java.time.Instant;
+import ru.skypro.homework.dto.CommentDTO;
+import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 
 
 @Component
 public class CommentMapper {
-    public Comment toDto(Comment entity) {
-        Comment dto = new Comment();
+    public CommentDTO toDto(CommentDTO entity) {
+        CommentDTO dto = new CommentDTO();
         dto.setAuthor(entity.getAuthor());
         dto.setAuthorImage(entity.getAuthorImage());
         dto.setAuthorFirstName(entity.getAuthorFirstName());
@@ -21,8 +18,8 @@ public class CommentMapper {
         return dto;
     }
 
-    public Comment toEntity(CreateOrUpdateComment dto) {
-        Comment entity = new Comment();
+    public CommentDTO toEntity(CreateOrUpdateCommentDTO dto) {
+        CommentDTO entity = new CommentDTO();
         entity.setAuthor(entity.getAuthor());
         entity.setAuthorImage(entity.getAuthorImage());
         entity.setAuthorFirstName(entity.getAuthorFirstName());

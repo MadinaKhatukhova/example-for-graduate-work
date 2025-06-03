@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Comment {
+public class CommentDTO {
 
     private Integer author;
     private String authorImage;
@@ -18,7 +18,7 @@ public class Comment {
     private Integer pk;
     private String text;
 
-    public Comment() {
+    public CommentDTO() {
 
     }
 }
