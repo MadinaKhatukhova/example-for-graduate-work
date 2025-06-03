@@ -12,12 +12,12 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<Comments> getComments(@PathVariable Integer id) {
-        return ResponseEntity.ok(new Comments());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping
     public ResponseEntity<Comment> addComment(@PathVariable Integer id,
                                               @RequestBody CreateOrUpdateComment comment) {
-        return ResponseEntity.ok(new Comment());
+        return ResponseEntity.ok().build();
     }
 }

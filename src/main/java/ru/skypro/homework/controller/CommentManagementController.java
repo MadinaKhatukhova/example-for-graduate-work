@@ -19,6 +19,6 @@ public class CommentManagementController {
     public ResponseEntity<Comment> updateComment(@PathVariable Integer adId,
                                                  @PathVariable Integer commentId,
                                                  @RequestBody CreateOrUpdateComment comment) {
-        return ResponseEntity.ok(new Comment());
+        return ResponseEntity.ok().build();
     }
 }

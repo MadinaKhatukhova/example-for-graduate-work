@@ -23,13 +23,13 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<User> getUser() {
         // Логика получения информации о пользователе
-        return ResponseEntity.ok(new User());
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/me")
     public ResponseEntity<User> updateUser(@RequestBody UpdateUser updateUser) {
         // Логика обновления информации о пользователе
-        return ResponseEntity.ok(new User());
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/me/image")
