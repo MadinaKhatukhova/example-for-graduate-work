@@ -5,15 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Ad {
+public class AdsDTO {
 
-    private Integer author;
-    private String image;
-    private Integer pk;
-    private Integer price;
-    private String title;
+    private Integer count;
+
+    private List<AdDTO> results;
+
 }
