@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class NewPassword {
-    private String currentPassword;
-    private String newPassword;
+public class UpdateUserDTO {
+    private String firstName;
+    private String lastName;
+    private String phone;
 
 }
