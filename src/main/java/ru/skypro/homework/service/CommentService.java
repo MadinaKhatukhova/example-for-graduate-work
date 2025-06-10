@@ -5,7 +5,7 @@ import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.model.Ad;
-import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.model.CommentEntity;
 import ru.skypro.homework.model.User;
 import ru.skypro.homework.exception.AdNotFoundException;
 import ru.skypro.homework.exception.CommentNotFoundException;
@@ -40,8 +40,8 @@ public class CommentService {
     }
 
     public CommentsDTO getComments(Integer adId) {
-        List<Comment> commentDTOS = commentRepository.findByAdId(adId);
-        return commentsMapper.toDto(commentDTOS);
+        List<CommentEntity> commentEntityDTOS = commentRepository.findByAdId(adId);
+        return commentsMapper.toDto(commentEntityDTOS);
     }
 
     public CommentDTO addComment(Integer adId, CreateOrUpdateCommentDTO dto, String username) {

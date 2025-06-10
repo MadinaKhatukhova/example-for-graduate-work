@@ -2,7 +2,7 @@ package ru.skypro.homework.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.CommentsDTO;
-import ru.skypro.homework.model.Comment;
+import ru.skypro.homework.model.CommentEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ public class CommentsMapper {
         this.commentMapper = commentMapper;
     }
 
-    public CommentsDTO toDto(List<Comment> entities) {
+    public CommentsDTO toDto(List<CommentEntity> entities) {
         CommentsDTO dto = new CommentsDTO();
         dto.setCount(entities.size());
         dto.setResults(entities.stream()
