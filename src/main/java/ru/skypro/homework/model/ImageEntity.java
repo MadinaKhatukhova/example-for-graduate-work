@@ -12,10 +12,13 @@ public class ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String filePath;
     private long fileSize;
     private String mediaType;
     @Lob
     private byte[] data;
+    @OneToOne
+    @JoinColumn(name = "pk")
+    private AdEntity ad;
 }
