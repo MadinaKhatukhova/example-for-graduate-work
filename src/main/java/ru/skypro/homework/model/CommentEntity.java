@@ -20,7 +20,7 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer author;
+    private Integer authorId;
     private String authorImage;
     private String authorFirstName;
     private Integer createdAt;
