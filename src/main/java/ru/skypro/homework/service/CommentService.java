@@ -49,7 +49,7 @@ public class CommentService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
 
         CommentDTO entity = commentMapper.toEntity(dto);
-        entity.setAd(ad);
+        //entity.setAd(ad);
         entity.setAuthor(user);
         entity.setCreatedAt(Instant.now());
 

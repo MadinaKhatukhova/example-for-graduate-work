@@ -15,8 +15,8 @@ public class CommentsMapper {
         this.commentMapper = commentMapper;
     }
 
-    public Comments toDto(List<Comment> entities) {
-        Comments dto = new Comments();
+    public CommentsDTO toDto(List<Comment> entities) {
+        CommentsDTO dto = new CommentsDTO();
         dto.setCount(entities.size());
         dto.setResults(entities.stream()
                 .map(commentMapper::toDto)

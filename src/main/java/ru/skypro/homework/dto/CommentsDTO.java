@@ -16,4 +16,7 @@ public class CommentsDTO {
     private Integer count;
     private List<CommentDTO> results;
 
+    public CommentsDTO() {
+
+    }
 }

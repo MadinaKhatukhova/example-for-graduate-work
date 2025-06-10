@@ -8,7 +8,6 @@ import ru.skypro.homework.dto.Ad;
 import ru.skypro.homework.dto.User;
 
 import javax.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Getter
