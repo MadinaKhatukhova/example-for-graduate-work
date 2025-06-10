@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.skypro.homework.dto.Ad;
-import ru.skypro.homework.dto.User;
+
 
 import javax.persistence.*;
 
