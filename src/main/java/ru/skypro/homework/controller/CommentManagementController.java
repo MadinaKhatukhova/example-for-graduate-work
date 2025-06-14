@@ -2,8 +2,8 @@ package ru.skypro.homework.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateOrUpdateComment;
+import ru.skypro.homework.dto.CommentDTO;
+import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 
 @RestController
 @RequestMapping("/ads/{adId}/comments/{commentId}")
@@ -16,9 +16,9 @@ public class CommentManagementController {
     }
 
     @PatchMapping
-    public ResponseEntity<Comment> updateComment(@PathVariable Integer adId,
-                                                 @PathVariable Integer commentId,
-                                                 @RequestBody CreateOrUpdateComment comment) {
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable Integer adId,
+                                                    @PathVariable Integer commentId,
+                                                    @RequestBody CreateOrUpdateCommentDTO comment) {
         return ResponseEntity.ok().build();
     }
 }

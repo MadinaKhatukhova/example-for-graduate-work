@@ -5,17 +5,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Comment {
+public class CommentsDTO {
 
-    private Integer author;
-    private String authorImage;
-    private String authorFirstName;
-    private Long createdAt;
-    private Integer pk;
-    private String text;
+    private Integer count;
+    private List<CommentDTO> results;
 
+    public CommentsDTO() {
+
+    }
 }

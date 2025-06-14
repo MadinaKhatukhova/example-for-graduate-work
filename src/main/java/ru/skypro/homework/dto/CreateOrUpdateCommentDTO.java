@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class UpdateUser {
-    private String firstName;
-    private String lastName;
-    private String phone;
+public class CreateOrUpdateCommentDTO {
+    private String text;
 
 }

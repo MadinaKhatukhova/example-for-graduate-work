@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ExtendedAd {
+public class ExtendedAdDTO {
 
     private Integer pk;
     private String authorFirstName;

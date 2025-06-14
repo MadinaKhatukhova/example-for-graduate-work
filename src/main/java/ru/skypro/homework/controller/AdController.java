@@ -1,22 +1,21 @@
 package ru.skypro.homework.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.Ad;
-import ru.skypro.homework.dto.Ads;
+import ru.skypro.homework.dto.AdDTO;
+import ru.skypro.homework.dto.AdsDTO;
 
 @RestController
 @RequestMapping("/ads")
-public class AdvertisementController {
+public class AdController {
     @GetMapping
     public ResponseEntity<?> getAllAds() {
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> postAdd(@RequestBody Ad ad) {
+    public ResponseEntity<?> postAdd(@RequestBody AdDTO adDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -36,7 +35,7 @@ public class AdvertisementController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getAuthUserAdds(@RequestBody Ads ads) {
+    public ResponseEntity<?> getAuthUserAdds(@RequestBody AdsDTO adsDTO) {
         return ResponseEntity.ok().build();
     }
 
