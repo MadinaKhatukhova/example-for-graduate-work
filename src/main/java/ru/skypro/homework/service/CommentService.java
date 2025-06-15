@@ -70,6 +70,8 @@ public class CommentService {
                 CommentEntity savedComment = commentRepository.save(existingComment);
                 return commentMapper.toDto(savedComment);
             }
+            throw new RuntimeException("Комментарий не найден");
         }
+        throw new RuntimeException("Объявление не найдено");
     }
 }
