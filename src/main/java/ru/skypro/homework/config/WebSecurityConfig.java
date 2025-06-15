@@ -37,7 +37,7 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, UserDetailsService UserDetailsService) {
+    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, MyRealizationUserDetailsService MyRealizationUserDetailsService) {
         this.AccessDeniedHandler = AccessDeniedHandler;
 
     }
