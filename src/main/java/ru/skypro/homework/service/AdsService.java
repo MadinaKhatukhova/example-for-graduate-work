@@ -17,25 +17,25 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface AdsService {
-    public AdDTO getAdDTO(AdEntity adEntity);
+    AdDTO getAdDTO(AdEntity adEntity);
 
-    public AdEntity getAd(AdDTO adDTO);
+    AdEntity getAd(AdDTO adDTO);
 
-    public List<AdDTO> getAllAds();
+    List<AdDTO> getAllAds();
 
-    public AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, Authentication authentication);
+    AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, Authentication authentication);
 
-    public ExtendedAdDTO getAdById(int id);
+    ExtendedAdDTO getAdById(int id);
 
-    public void removeAd(int id);
+    void removeAd(int id);
 
-    public AdDTO updateAd(int id, CreateOrUpdateAdDTO ad);
+    AdDTO updateAd(int id, CreateOrUpdateAdDTO ad);
 
-    public void updateAdImage(int id, MultipartFile image);
+    void updateAdImage(int id, MultipartFile image);
 
-    public List<AdDTO> getAdsForLoggedInUser();
+    List<AdDTO> getAdsForLoggedInUser();
 
-    public boolean isAuthorAd(String email, Integer adId);
+    boolean isAuthorAd(String email, Integer adId);
 
-    public AdEntity findById(Integer id);
+    AdEntity findById(Integer id);
 }
