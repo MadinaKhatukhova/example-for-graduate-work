@@ -19,6 +19,6 @@ public class ImageEntity {
     @Lob
     private byte[] data;
     @OneToOne
-    @JoinColumn(name = "pk")
+    @JoinColumn(name = "ad_id")
     private AdEntity ad;
 }
