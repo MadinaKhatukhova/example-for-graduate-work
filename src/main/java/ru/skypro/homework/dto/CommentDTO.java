@@ -9,11 +9,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Ad {
+public class CommentDTO {
 
     private Integer author;
-    private String image;
+    private String authorImage;
+    private String authorFirstName;
+    private Integer createdAt;
     private Integer pk;
-    private Integer price;
-    private String title;
+    private String text;
+
+    public CommentDTO() {
+
+    }
 }

@@ -11,10 +11,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Ads {
+public class AdsDTO {
 
     private Integer count;
 
-    private List<Ad> results;
+    private List<AdDTO> results;
 
 }
