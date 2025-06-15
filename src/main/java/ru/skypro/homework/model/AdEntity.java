@@ -17,15 +17,16 @@ import java.util.List;
 public class AdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer author;    //author id
+    private Integer pk;
     private String email;
     private String image;
-    private Integer pk;
     private Integer price;
     private String title;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
     @OneToMany(mappedBy = "adEntity")
     private List<CommentEntity> commentEntities;
 }
