@@ -16,11 +16,13 @@ import javax.persistence.*;
 public class AdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long author;    //author id
+    private Integer author;    //author id
+
+    private String email;
 
     private String image;
 
-    private Long pk;
+    private Integer pk;
 
     private Integer price;
 
