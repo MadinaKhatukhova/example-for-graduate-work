@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
         AdEntity adEntity = adsService.findById(adId);
         List<CommentEntity> commentEntities = adEntity.getCommentEntities();
         for (CommentEntity commentEntity : commentEntities) {
-            if (commentEntity.getPk().equals(commentId)) {
+            if (commentEntity.getCommentId().equals(commentId)) {
                 commentRepository.delete(commentEntity);
                 return;
             }
@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
         AdEntity adEntity = adsService.findById(adId);
         List<CommentEntity> commentEntities = adEntity.getCommentEntities();
         for (CommentEntity existingComment : commentEntities) {
-            if (existingComment.getPk().equals(commentId)) {
+            if (existingComment.getCommentId().equals(commentId)) {
                 existingComment.setText(comment.getText());
                 CommentEntity savedComment = commentRepository.save(existingComment);
                 return commentMapper.toDto(savedComment);

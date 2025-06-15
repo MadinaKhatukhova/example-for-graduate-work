@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pk;
+    private Integer commentId;
 
     private String authorImage;
     private String authorFirstName;

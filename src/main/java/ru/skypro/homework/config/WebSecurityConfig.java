@@ -2,19 +2,17 @@ package ru.skypro.homework.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import ru.skypro.homework.dto.Role;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final AccessDeniedHandler AccessDeniedHandler;
+    private final MyAccessDeniedHandler MyAccessDeniedHandler;
 
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
@@ -37,24 +35,27 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, MyRealizationUserDetailsService MyRealizationUserDetailsService) {
-        this.AccessDeniedHandler = AccessDeniedHandler;
+    public WebSecurityConfig(MyAccessDeniedHandler MyAccessDeniedHandler, MyRealizationUserDetailsService MyRealizationUserDetailsService) {
+        this.MyAccessDeniedHandler = MyAccessDeniedHandler;
 
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http.cors((cors) -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorization ->
                                 authorization
-                                        .mvcMatchers(AUTH_WHITELIST)
+                                        .requestMatchers(AUTH_WHITELIST)
                                         .permitAll()
-                                        .mvcMatchers("/ads/**", "/users/**")
+                                        .requestMatchers("/ads/", "/users/", "/image/**")
                                         .authenticated())
-                .cors()
-                .and()
+                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
+                        .loginPage("/login")
+                        .permitAll())
+                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler)
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .httpBasic(withDefaults());
         return http.build();
     }

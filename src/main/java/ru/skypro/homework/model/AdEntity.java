@@ -17,7 +17,8 @@ import java.util.List;
 public class AdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pk;
+    private Integer id;
+
     private String email;
     private String image;
     private Integer price;
