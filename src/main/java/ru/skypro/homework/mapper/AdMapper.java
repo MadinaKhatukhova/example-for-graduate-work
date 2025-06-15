@@ -12,7 +12,6 @@ public class AdMapper {
     public AdDTO toDto(AdEntity entity) {
         AdDTO dto = new AdDTO();
         dto.setPk(entity.getPk());  // Особое внимание на pk → id
-        dto.setAuthor(entity.getAuthor());
         dto.setImage(entity.getImage());
         dto.setPrice(entity.getPrice());
         dto.setTitle(entity.getTitle());
@@ -23,7 +22,6 @@ public class AdMapper {
     public AdEntity toEntity(AdDTO dto) {
         AdEntity entity = new AdEntity();
         entity.setPk(dto.getPk());  // Особое внимание на id → pk
-        entity.setAuthor(dto.getAuthor());
         entity.setImage(dto.getImage());
         entity.setPrice(dto.getPrice());
         entity.setTitle(dto.getTitle());

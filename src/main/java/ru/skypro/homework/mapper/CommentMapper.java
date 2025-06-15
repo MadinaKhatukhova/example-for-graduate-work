@@ -10,7 +10,6 @@ import ru.skypro.homework.model.CommentEntity;
 public class CommentMapper {
     public CommentDTO toDto(CommentEntity entity) {
         CommentDTO dto = new CommentDTO();
-        dto.setAuthor(entity.getAuthorId());
         dto.setAuthorImage(entity.getAuthorImage());
         dto.setAuthorFirstName(entity.getAuthorFirstName());
         dto.setCreatedAt(entity.getCreatedAt());

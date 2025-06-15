@@ -17,13 +17,11 @@ import javax.persistence.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer pk;
 
-    private Integer authorId;
     private String authorImage;
     private String authorFirstName;
     private Integer createdAt;
-    private Integer pk;
     private String text;
 
     @ManyToOne
@@ -31,6 +29,6 @@ public class CommentEntity {
     private UserEntity author;
 
     @ManyToOne
-    @JoinColumn(name = "ad_id")
-    private AdEntity ad;
+    @JoinColumn(name = "pk")
+    private AdEntity adEntity;
 }
