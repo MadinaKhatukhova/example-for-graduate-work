@@ -1,93 +1,29 @@
 package ru.skypro.homework.service;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import ru.skypro.homework.dto.NewPasswordDTO;
 import ru.skypro.homework.dto.UpdateUserDTO;
 import ru.skypro.homework.dto.UserDTO;
-
-import ru.skypro.homework.exception.NotEditUserPasswordException;
-import ru.skypro.homework.exception.UserNotFoundException;
-import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.model.UserEntity;
-import ru.skypro.homework.repository.UserRepository;
 
-import javax.transaction.Transactional;
+public interface UserService {
 
-@Service
-@Transactional
-public class UserService {
+     UserEntity findUser(Long userId);
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+     UserDTO getUserDTO(UserEntity userEntity);
 
-    @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
+    UserEntity getUserById(Long id);
 
-    //Находит пользователя по его идентификатору.
-    public UserEntity findUser(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-    }
+    void saveUser(UserEntity userEntity);
 
-    //Преобразует сущность пользователя в DTO.
-    public UserDTO getUserDTO(UserEntity userEntity) {
-        return userMapper.userEntityToUserDTO(userEntity);
-    }
+    UserEntity findByUsername(String email);
 
-    //Находит пользователя по его идентификатору.
-    public UserEntity getUserById(Long id) {
-        UserEntity byUserId = userRepository.findByUserId(id);
-        if (byUserId == null) {
-            throw new RuntimeException();
-        }
-        return byUserId;
-    }
+    UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser);
 
-    //Сохраняет пользователя.
-    public void saveUser(UserEntity userEntity) {
-        userRepository.save(userEntity);
-    }
+    UserDTO findUserDTO(Long userId);
 
-    //Находит пользователя по его email.
-    public UserEntity findByUsername(String email) {
-        return userRepository.findByEmail(email);
-    }
+    void updatePassword(Long userId, NewPasswordDTO newPasswordDTO);
 
-    //Обновляет информацию о пользователе.
-    public UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
-        if (updateUser.getFirstName() != null) {
-            userEntity.setFirstName(updateUser.getFirstName());
-        }
-        if (updateUser.getLastName() != null) {
-            userEntity.setLastName(updateUser.getLastName());
-        }
-        if (updateUser.getPhone() != null) {
-            userEntity.setPhone(updateUser.getPhone());
-        }
-        saveUser(userEntity);
-        return updateUser;
-    }
 
-    //Находит DTO пользователя по его идентификатору.
-    public UserDTO findUserDTO(Long userId) {
-        return getUserDTO(findUser(userId));
-    }
 
-    //Обновляет пароль пользователя.
-    public void updatePassword(Long userId, NewPasswordDTO newPasswordDTO) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
-        if (userEntity.getPassword().equals(newPasswordDTO.getCurrentPassword())) {
-            userEntity.setPassword(newPasswordDTO.getNewPassword());
-        } else {
-            throw new NotEditUserPasswordException("not edited password");
-        }
-    }
+
 }
