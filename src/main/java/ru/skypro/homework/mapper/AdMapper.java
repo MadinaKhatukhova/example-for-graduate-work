@@ -2,6 +2,8 @@ package ru.skypro.homework.mapper;
 
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.AdDTO;
+import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
+import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.model.AdEntity;
 
 @Service
@@ -26,6 +28,27 @@ public class AdMapper {
         entity.setPrice(dto.getPrice());
         entity.setTitle(dto.getTitle());
         return entity;
+    }
+
+    public AdEntity createOrUpdateAdToAdEntity(CreateOrUpdateAdDTO dto){
+        AdEntity entity = new AdEntity();
+        entity.setTitle(dto.getTitle());
+        entity.setPrice(dto.getPrice());
+        return entity;
+    }
+
+    public ExtendedAdDTO adEntityToExtendedAd(AdEntity entity){
+        ExtendedAdDTO dto = new ExtendedAdDTO();
+        dto.setPk(entity.getPk());
+        dto.setAuthorFirstName(entity.getEmail());
+        dto.setAuthorLastName(entity.getEmail());
+        dto.setImage(entity.getImage());
+        dto.setPrice(entity.getPrice());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getTitle());
+        dto.setPhone(entity.getTitle());
+        dto.setEmail(entity.getEmail());
+        return dto;
     }
 
 }
