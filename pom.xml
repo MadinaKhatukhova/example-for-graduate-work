@@ -7,18 +7,18 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.15</version>
+    <version>3.3.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <groupId>ru.skypro</groupId>
-  <artifactId>adsDTO</artifactId>
+  <artifactId>ads</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Ads application</name>
   <description>Application for managing adsDTO</description>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
   </properties>
 
   <dependencies>

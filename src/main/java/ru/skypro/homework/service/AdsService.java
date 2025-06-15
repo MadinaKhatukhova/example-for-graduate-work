@@ -13,7 +13,6 @@ import ru.skypro.homework.model.CommentEntity;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface AdsService {
