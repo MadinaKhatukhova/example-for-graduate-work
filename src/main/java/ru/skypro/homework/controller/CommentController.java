@@ -20,4 +20,17 @@ public class CommentController {
                                                  @RequestBody CreateOrUpdateCommentDTO comment) {
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Integer adId,
+                                              @PathVariable Integer commentId) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("{commentId}")
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable Integer adId,
+                                                    @PathVariable Integer commentId,
+                                                    @RequestBody CreateOrUpdateCommentDTO comment) {
+        return ResponseEntity.ok().build();
+    }
 }
