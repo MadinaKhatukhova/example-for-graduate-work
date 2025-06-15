@@ -15,7 +15,6 @@ import ru.skypro.homework.repository.CommentRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@
 @Service
 @AllArgsConstructor
 public class CommentService {
