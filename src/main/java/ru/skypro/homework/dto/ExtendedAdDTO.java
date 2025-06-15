@@ -1,15 +1,13 @@
 package ru.skypro.homework.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@NoArgsConstructor
 public class ExtendedAdDTO {
 
     private Integer pk;

@@ -9,9 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 public class AdDTO {
 
-    private Long author;
+    private Integer author;
     private String image;
-    private Long pk;
+    private Integer pk;
     private Integer price;
     private String title;
 }
