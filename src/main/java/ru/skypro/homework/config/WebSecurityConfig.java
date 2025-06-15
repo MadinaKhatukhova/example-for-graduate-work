@@ -22,7 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class WebSecurityConfig {
 
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final AccessDeniedHandler AccessDeniedHandler;
 
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
@@ -35,8 +35,8 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler, UserDetailsService UserDetailsService) {
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, UserDetailsService UserDetailsService) {
+        this.AccessDeniedHandler = AccessDeniedHandler;
 
     }
 
