@@ -1,71 +1,76 @@
 package ru.skypro.homework.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
-import ru.skypro.homework.model.Ad;
+import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
-import ru.skypro.homework.model.User;
-import ru.skypro.homework.exception.AdNotFoundException;
-import ru.skypro.homework.exception.CommentNotFoundException;
-import ru.skypro.homework.exception.UserNotFoundException;
-import ru.skypro.homework.mapper.CommentMapper;
-import ru.skypro.homework.mapper.CommentsMapper;
-import ru.skypro.homework.repository.AdRepository;
-import ru.skypro.homework.repository.CommentRepository;
-import ru.skypro.homework.repository.UserRepository;
 
-import java.time.Instant;
+import ru.skypro.homework.mapper.CommentMapper;
+
+import ru.skypro.homework.repository.CommentRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 
+@
 @Service
+@AllArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final AdRepository adRepository;
-    private final UserRepository userRepository;
     private final CommentMapper commentMapper;
-    private final CommentsMapper commentsMapper;
+    private final AdsService adsService;
 
-    public CommentService(CommentRepository commentRepository,
-                          AdRepository adRepository,
-                          UserRepository userRepository,
-                          CommentMapper commentMapper,
-                          CommentsMapper commentsMapper) {
-        this.commentRepository = commentRepository;
-        this.adRepository = adRepository;
-        this.userRepository = userRepository;
-        this.commentMapper = commentMapper;
-        this.commentsMapper = commentsMapper;
+    //Добавляет новый комментарий к объявлению.
+    public CommentDTO addComment(Integer adId, CreateOrUpdateCommentDTO comment) {
+        AdEntity adEntity = adsService.findById(adId);
+        CommentEntity newComment = new CommentEntity();
+        newComment.setAd(adEntity);
+        newComment.setText(comment.getText());
+
+        CommentEntity savedComment = commentRepository.save(newComment);
+        return commentMapper.toDto(savedComment);
     }
 
+    // Возвращает список комментариев к объявлению.
     public CommentsDTO getComments(Integer adId) {
-        List<CommentEntity> commentEntityDTOS = commentRepository.findByAdId(adId);
-        return commentsMapper.toDto(commentEntityDTOS);
+        AdEntity adEntity = adsService.findById(adId);
+        List<CommentEntity> allByAdId = adEntity.getCommentEntities();
+        List<CommentDTO> result = new ArrayList<>();
+
+        for (CommentEntity commentEntity : allByAdId) {
+            result.add(commentMapper.toDto(commentEntity));
+        }
+        CommentsDTO comments = new CommentsDTO();
+        comments.setResults(result);
+        comments.setCount(result.size());
+        return comments;
     }
 
-    public CommentDTO addComment(Integer adId, CreateOrUpdateCommentDTO dto, String username) {
-        Ad ad = adRepository.findById(adId).orElseThrow(() -> new AdNotFoundException(adId));
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-
-        CommentDTO entity = commentMapper.toEntity(dto);
-        //entity.setAd(ad);
-        entity.setAuthor(user);
-        entity.setCreatedAt(Instant.now());
-
-        CommentDTO savedEntity = commentRepository.save(entity);
-        return commentMapper.toDto(savedEntity);
-    }
-
+    // Удаляет комментарий к объявлению.
     public void deleteComment(Integer adId, Integer commentId) {
-        commentRepository.deleteByAdIdAndId(adId, commentId);
+        AdEntity adEntity = adsService.findById(adId);
+        List<CommentEntity> commentEntities = adEntity.getCommentEntities();
+        for (CommentEntity commentEntity : commentEntities) {
+            if (commentEntity.getId().equals(commentId)) {
+                commentRepository.delete(commentEntity);
+                return;
+            }
+        }
     }
 
-    public CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO dto) {
-        CommentDTO entity = commentRepository.findByAdIdAndId(adId, commentId)
-                .orElseThrow(() -> new CommentNotFoundException(commentId));
-        entity.setText(dto.getText());
-        CommentDTO updatedEntity = commentRepository.save(entity);
-        return commentMapper.toDto(updatedEntity);
+    // Обновляет комментарий у объявления.
+    public CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO comment) {
+        AdEntity adEntity = adsService.findById(adId);
+        List<CommentEntity> commentEntities = adEntity.getCommentEntities();
+        for (CommentEntity existingComment : commentEntities) {
+            if (existingComment.getId().equals(commentId)) {
+                existingComment.setText(comment.getText());
+                CommentEntity savedComment = commentRepository.save(existingComment);
+                return commentMapper.toDto(savedComment);
+            }
+        }
     }
 }
