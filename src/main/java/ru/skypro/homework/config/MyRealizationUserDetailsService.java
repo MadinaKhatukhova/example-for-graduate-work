@@ -14,7 +14,7 @@ import ru.skypro.homework.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsService implements UserDetailsManager {
+public class MyRealizationUserDetailsService implements UserDetailsManager {
 
     @Autowired
     private UserRepository userRepository;

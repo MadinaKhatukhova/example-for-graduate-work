@@ -37,21 +37,9 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, UserDetailsService UserDetailsService) {
+    public WebSecurityConfig(AccessDeniedHandler AccessDeniedHandler, MyRealizationUserDetailsService MyRealizationUserDetailsService) {
         this.AccessDeniedHandler = AccessDeniedHandler;
 
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user =
-                User.builder()
-                        .username("user@gmail.com")
-                        .password("password")
-                        .passwordEncoder(passwordEncoder::encode)
-                        .roles(Role.USER.name())
-                        .build();
-        return new InMemoryUserDetailsManager(user);
     }
 
     @Bean
