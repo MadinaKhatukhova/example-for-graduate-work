@@ -29,6 +29,6 @@ public class CommentEntity {
     private UserEntity author;
 
     @ManyToOne
-    @JoinColumn(name = "pk")
+    @JoinColumn(name = "adEntityId")
     private AdEntity adEntity;
 }
