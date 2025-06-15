@@ -68,4 +68,5 @@ public class CommentService {
         CommentDTO updatedEntity = commentRepository.save(entity);
         return commentMapper.toDto(updatedEntity);
     }
+
 }
