@@ -17,7 +17,6 @@ import javax.persistence.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private Integer pk;
 
     private String authorImage;
@@ -31,5 +30,5 @@ public class CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "pk")
-    private AdEntity ad;
+    private AdEntity adEntity;
 }
