@@ -8,10 +8,10 @@ import ru.skypro.homework.model.UserEntity;
 import java.util.Collection;
 import java.util.List;
 
-public class MyUserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
     private final UserEntity user;
 
-    public MyUserPrincipal(UserEntity user){
+    public UserPrincipal(UserEntity user){
         this.user = user;
     }
 

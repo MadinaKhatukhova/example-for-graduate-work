@@ -39,7 +39,7 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler, MyUserDetailsService myUserDetailsService) {
+    public WebSecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler, UserDetailsService userDetailsService) {
         this.customAccessDeniedHandler = customAccessDeniedHandler;
 
     }
