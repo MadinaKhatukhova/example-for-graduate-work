@@ -46,7 +46,8 @@ public class UserDetailsService implements UserDetailsManager {
 
     @Override
     public void deleteUser(String username) {
-
+        UserEntity userEntity = userRepository.findByEmail(username);
+        userRepository.delete(userEntity);
     }
 
     @Override
