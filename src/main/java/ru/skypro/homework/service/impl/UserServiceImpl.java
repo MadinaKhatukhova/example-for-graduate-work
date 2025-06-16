@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     //Находит пользователя по его идентификатору.
-    public UserEntity findUser(Long userId) {
+    public UserEntity findUser(Integer userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //Находит пользователя по его идентификатору.
-    public UserEntity getUserById(Long id) {
+    public UserEntity getUserById(Integer id) {
         UserEntity byUserId = userRepository.findByUserId(id);
         if (byUserId == null) {
             throw new RuntimeException();
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //Обновляет информацию о пользователе.
-    public UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser) {
+    public UpdateUserDTO updateUser(Integer userId, UpdateUserDTO updateUser) {
         UserEntity userEntity = userRepository.findByUserId(userId);
         if (updateUser.getFirstName() != null) {
             userEntity.setFirstName(updateUser.getFirstName());
@@ -74,12 +74,12 @@ public class UserServiceImpl implements UserService {
     }
 
     //Находит DTO пользователя по его идентификатору.
-    public UserDTO findUserDTO(Long userId) {
+    public UserDTO findUserDTO(Integer userId) {
         return getUserDTO(findUser(userId));
     }
 
     //Обновляет пароль пользователя.
-    public void updatePassword(Long userId, NewPasswordDTO newPasswordDTO) {
+    public void updatePassword(Integer userId, NewPasswordDTO newPasswordDTO) {
         UserEntity userEntity = userRepository.findByUserId(userId);
         if (userEntity.getPassword().equals(newPasswordDTO.getCurrentPassword())) {
             userEntity.setPassword(newPasswordDTO.getNewPassword());

@@ -18,7 +18,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     @GeneratedValue
-    private Long userId;
+    private Integer userId;
     private String email;
     private String firstName;
     private String lastName;

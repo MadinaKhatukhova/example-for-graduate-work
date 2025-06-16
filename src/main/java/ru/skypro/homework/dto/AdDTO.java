@@ -2,11 +2,7 @@ package ru.skypro.homework.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
 public class AdDTO {
 
     private Integer author;

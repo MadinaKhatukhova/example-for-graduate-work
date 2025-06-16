@@ -3,11 +3,7 @@ package ru.skypro.homework.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
 public class ExtendedAdDTO {
 
     private Integer pk;
