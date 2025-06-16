@@ -54,7 +54,6 @@ public class UserDetailsService implements UserDetailsManager {
     @Override
     public void deleteUser(String username) {
         UserEntity userEntity = userRepository.findByEmail(username);
-        stageThreeUserDetailsService
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
