@@ -26,7 +26,7 @@ public class UserMapper {
 
     public UserEntity userDTOToUserEntity(UserDTO userDTO) {
         UserEntity userEntity = mapper.getMapper().map(userDTO, UserEntity.class);
-        userEntity.setUserId(userDTO.getId().longValue());
+        userEntity.setUserId(userDTO.getId());
         return userEntity;
     }
 }
