@@ -14,7 +14,7 @@ import ru.skypro.homework.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class MyRealizationUserDetailsService implements UserDetailsManager {
+public class MyUserDetailsService implements UserDetailsManager {
 
     @Autowired
     private UserRepository userRepository;
@@ -27,7 +27,7 @@ public class MyRealizationUserDetailsService implements UserDetailsManager {
         if (user== null){
             throw new UsernameNotFoundException(email);
         }
-        return new UserPrincipal (user);
+        return new MyUserPrincipal (user);
     }
 
     @Override

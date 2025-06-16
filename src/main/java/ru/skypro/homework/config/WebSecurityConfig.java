@@ -1,5 +1,6 @@
 package ru.skypro.homework.config;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,14 @@ import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class WebSecurityConfig {
 
-    private final MyAccessDeniedHandler MyAccessDeniedHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
+
+
 
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
@@ -35,8 +39,8 @@ public class WebSecurityConfig {
             "/image"
     };
 
-    public WebSecurityConfig(MyAccessDeniedHandler MyAccessDeniedHandler, MyRealizationUserDetailsService MyRealizationUserDetailsService) {
-        this.MyAccessDeniedHandler = MyAccessDeniedHandler;
+    public WebSecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler, MyUserDetailsService myUserDetailsService) {
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
 
     }
 
@@ -54,7 +58,7 @@ public class WebSecurityConfig {
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
                         .loginPage("/login")
                         .permitAll())
-                .exceptionHandling(e -> e.accessDeniedHandler(MyAccessDeniedHandler)
+                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .httpBasic(withDefaults());
         return http.build();
@@ -71,8 +75,11 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }
