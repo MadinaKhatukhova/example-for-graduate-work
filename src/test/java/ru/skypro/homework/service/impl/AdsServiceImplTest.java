@@ -69,7 +69,7 @@ class AdsServiceImplTest {
                 "image", "test.jpg", "image/jpeg", "test image".getBytes());
 
         AdEntity savedAdEntity = new AdEntity();
-        savedAdEntity.setId(1);
+        savedAdEntity.setId(1L);
         savedAdEntity.setTitle("Test Ad");
         savedAdEntity.setPrice(1000);
         savedAdEntity.setImage("test.jpg");
@@ -96,14 +96,14 @@ class AdsServiceImplTest {
     @Test
     void getAdById_shouldReturnExtendedAdDTO_whenAdExists() {
         // Arrange
-        int adId = 1;
+        Long adId = 1L;
         AdEntity adEntity = new AdEntity();
-        adEntity.setId(adId);
+        adEntity.setId((long) adId);
 
         ExtendedAdDTO expectedExtendedAdDTO = new ExtendedAdDTO();
-        expectedExtendedAdDTO.setPk(adId);
+        expectedExtendedAdDTO.setPk(Math.toIntExact((Long) adId));
 
-        when(adRepository.findById(adId)).thenReturn(Optional.of(adEntity));
+        when(adRepository.findById((long) adId)).thenReturn(Optional.of(adEntity));
         when(adMapper.adEntityToExtendedAd(adEntity)).thenReturn(expectedExtendedAdDTO);
 
         // Act
@@ -111,48 +111,48 @@ class AdsServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(adId, result.getPk());
-        verify(adRepository, times(1)).findById(adId);
+        assertEquals(adId, Optional.ofNullable(result.getPk()));
+        verify(adRepository, times(1)).findById((long) adId);
     }
 
     @Test
     void getAdById_shouldThrowException_whenAdNotFound() {
         // Arrange
-        int adId = 999;
-        when(adRepository.findById(adId)).thenReturn(Optional.empty());
+        Long adId = 999L;
+        when(adRepository.findById((long) adId)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(RuntimeException.class, () -> adsService.getAdById(adId));
-        verify(adRepository, times(1)).findById(adId);
+        verify(adRepository, times(1)).findById((long) adId);
     }
 
     @Test
     void removeAd_shouldDeleteAd_whenAdExists() {
         // Arrange
-        int adId = 1;
+        Long adId = 1L;
 
         // Act
-        adsService.removeAd(adId);
+        adsService.removeAd(Math.toIntExact(adId));
 
         // Assert
-        verify(adRepository, times(1)).deleteById(adId);
+        verify(adRepository, times(1)).deleteById((long) adId);
     }
 
     @Test
     void updateAdImage_shouldUpdateImage_whenAdExists() {
         // Arrange
-        int adId = 1;
+        Long adId = 1L;
         MockMultipartFile newImage = new MockMultipartFile(
                 "newImage", "new.jpg", "image/jpeg", "new image".getBytes());
 
         AdEntity existingAd = new AdEntity();
-        existingAd.setId(adId);
+        existingAd.setId((long) adId);
         existingAd.setImage("old.jpg");
 
-        when(adRepository.findById(adId)).thenReturn(Optional.of(existingAd));
+        when(adRepository.findById((long) adId)).thenReturn(Optional.of(existingAd));
 
         // Act
-        adsService.updateAdImage(adId, newImage);
+        adsService.updateAdImage(Math.toIntExact(adId), newImage);
 
         // Assert
         assertEquals("new.jpg", existingAd.getImage());
@@ -163,16 +163,16 @@ class AdsServiceImplTest {
     void isAuthorAd_shouldReturnTrue_whenUserIsAuthor() {
         // Arrange
         String userEmail = "user@example.com";
-        Integer adId = 1;
+        Long adId = 1L;
 
         AdEntity adEntity = new AdEntity();
-        adEntity.setId(adId);
+        adEntity.setId(Long.valueOf(adId));
         adEntity.setEmail(userEmail);
 
-        when(adRepository.findById(adId)).thenReturn(Optional.of(adEntity));
+        when(adRepository.findById(Long.valueOf(adId))).thenReturn(Optional.of(adEntity));
 
         // Act
-        boolean result = adsService.isAuthorAd(userEmail, adId);
+        boolean result = adsService.isAuthorAd(userEmail, Math.toIntExact(adId));
 
         // Assert
         assertTrue(result);
@@ -183,16 +183,16 @@ class AdsServiceImplTest {
         // Arrange
         String userEmail = "user@example.com";
         String otherEmail = "other@example.com";
-        Integer adId = 1;
+        Long adId = 1L;
 
         AdEntity adEntity = new AdEntity();
-        adEntity.setId(adId);
+        adEntity.setId(Long.valueOf(adId));
         adEntity.setEmail(otherEmail);
 
-        when(adRepository.findById(adId)).thenReturn(Optional.of(adEntity));
+        when(adRepository.findById(Long.valueOf(adId))).thenReturn(Optional.of(adEntity));
 
         // Act
-        boolean result = adsService.isAuthorAd(userEmail, adId);
+        boolean result = adsService.isAuthorAd(userEmail, Math.toIntExact(adId));
 
         // Assert
         assertFalse(result);
@@ -201,17 +201,17 @@ class AdsServiceImplTest {
     @Test
     void findById_shouldReturnAdEntity_whenAdExists() {
         // Arrange
-        Integer adId = 1;
+        Long adId = 1L;
         AdEntity expectedAd = new AdEntity();
-        expectedAd.setId(adId);
+        expectedAd.setId(Long.valueOf(adId));
 
-        when(adRepository.findById(adId)).thenReturn(Optional.of(expectedAd));
+        when(adRepository.findById(Long.valueOf(adId))).thenReturn(Optional.of(expectedAd));
 
         // Act
-        AdEntity result = adsService.findById(adId);
+        AdEntity result = adsService.findById(Math.toIntExact(adId));
 
         // Assert
         assertNotNull(result);
-        assertEquals(adId, result.getId());
+        assertEquals(Long.valueOf(1L), result.getId());
     }
 }

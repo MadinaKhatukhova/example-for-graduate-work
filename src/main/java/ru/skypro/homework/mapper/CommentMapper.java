@@ -13,7 +13,7 @@ public class CommentMapper {
         dto.setAuthorImage(entity.getAuthorImage());
         dto.setAuthorFirstName(entity.getAuthorFirstName());
         dto.setCreatedAt(entity.getCreatedAt());
-        dto.setPk(entity.getCommentId());
+        dto.setPk(Math.toIntExact(entity.getCommentId()));
         dto.setText(entity.getText());
         return dto;
     }

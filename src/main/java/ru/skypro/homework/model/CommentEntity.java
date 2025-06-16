@@ -17,7 +17,7 @@ import lombok.Setter;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentId;
+    private Long commentId;
 
     private String authorImage;
     private String authorFirstName;

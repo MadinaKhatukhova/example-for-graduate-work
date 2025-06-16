@@ -64,7 +64,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO comment) {
-        AdEntity adEntity = adsService.findById(adId);
+        return null;
+    }
+
+    @Override
+    public CommentDTO updateComment(Long adId, Long commentId, CreateOrUpdateCommentDTO comment) {
+        AdEntity adEntity = adsService.findById(Math.toIntExact(adId));
         List<CommentEntity> commentEntities = adEntity.getCommentEntities();
         for (CommentEntity existingComment : commentEntities) {
             if (existingComment.getCommentId().equals(commentId)) {

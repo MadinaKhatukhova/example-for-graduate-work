@@ -20,17 +20,17 @@ public class AdController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAddInfo(@RequestParam int id) {
+    public ResponseEntity<?> getAddInfo(@RequestParam long id) {
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAdd(@RequestParam int id) {
+    public ResponseEntity<?> deleteAdd(@RequestParam long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateAddInfo(@RequestParam int id) {
+    public ResponseEntity<?> updateAddInfo(@RequestParam long id) {
         return ResponseEntity.ok().build();
     }
 

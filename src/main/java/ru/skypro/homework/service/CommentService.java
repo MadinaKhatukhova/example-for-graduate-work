@@ -20,4 +20,6 @@ public interface CommentService {
 
     // Обновляет комментарий у объявления.
     CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO comment);
+
+    CommentDTO updateComment(Long adId, Long commentId, CreateOrUpdateCommentDTO comment);
 }

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     //Находит пользователя по его идентификатору.
     public UserEntity getUserById(Integer id) {
-        UserEntity byUserId = userRepository.findByUserId(id);
+        UserEntity byUserId = userRepository.findByUserId(Long.valueOf(id));
         if (byUserId == null) {
             throw new RuntimeException();
         }
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     //Обновляет информацию о пользователе.
     public UpdateUserDTO updateUser(Integer userId, UpdateUserDTO updateUser) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
+        UserEntity userEntity = userRepository.findByUserId(Long.valueOf(userId));
         if (updateUser.getFirstName() != null) {
             userEntity.setFirstName(updateUser.getFirstName());
         }
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     //Обновляет пароль пользователя.
     public void updatePassword(Integer userId, NewPasswordDTO newPasswordDTO) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
+        UserEntity userEntity = userRepository.findByUserId(Long.valueOf(userId));
         if (userEntity.getPassword().equals(newPasswordDTO.getCurrentPassword())) {
             userEntity.setPassword(newPasswordDTO.getNewPassword());
         } else {

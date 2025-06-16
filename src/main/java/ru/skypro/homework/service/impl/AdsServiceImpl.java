@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
-import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
-import ru.skypro.homework.model.CommentEntity;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdsService;
@@ -60,6 +58,11 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public ExtendedAdDTO getAdById(int id) {
+        return null;
+    }
+
+    @Override
+    public ExtendedAdDTO getAdById(long id) {
         Optional<AdEntity> adEntityOptional = adRepository.findById(id);
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
@@ -71,12 +74,12 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public void removeAd(int id) {
-        adRepository.deleteById(id);
+        adRepository.deleteById((long) id);
     }
 
     @Override
     public AdDTO updateAd(int id, CreateOrUpdateAdDTO ad) {
-        Optional<AdEntity> adEntityOptional = adRepository.findById(id);
+        Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
             adMapper.createOrUpdateAdToAdEntity(ad);
@@ -89,7 +92,7 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public void updateAdImage(int id, MultipartFile image) {
-        Optional<AdEntity> adEntityOptional = adRepository.findById(id);
+        Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
             adEntity.setImage(image.getOriginalFilename());
@@ -106,12 +109,12 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public boolean isAuthorAd(String email, Integer adId) {
-        AdEntity adEntity = adRepository.findById(adId).orElseThrow(RuntimeException::new);
+        AdEntity adEntity = adRepository.findById(Long.valueOf(adId)).orElseThrow(RuntimeException::new);
         return adEntity.getEmail().equals(email);
     }
 
     @Override
     public AdEntity findById(Integer id) {
-        return adRepository.findById(id).get();
+        return adRepository.findById(Long.valueOf(id)).get();
     }
 }

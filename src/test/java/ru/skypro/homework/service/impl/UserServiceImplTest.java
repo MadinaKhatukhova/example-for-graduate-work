@@ -34,40 +34,40 @@ class UserServiceImplTest {
     @Test
     void findUser_shouldReturnUser_whenUserExists() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity expectedUser = new UserEntity();
-        expectedUser.setUserId(userId);
+        expectedUser.setUserId((long) Math.toIntExact(userId));
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
+        when(userRepository.findById(Math.toIntExact(userId))).thenReturn(Optional.of(expectedUser));
 
         // Act
-        UserEntity result = userService.findUser(userId);
+        UserEntity result = userService.findUser(Math.toIntExact(userId));
 
         // Assert
         assertNotNull(result);
         assertEquals(userId, result.getUserId());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findById(Math.toIntExact(userId));
     }
 
     @Test
     void findUser_shouldThrowException_whenUserNotFound() {
         // Arrange
-        Integer userId = 999;
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        Long userId = 999L;
+        when(userRepository.findById(Math.toIntExact(userId))).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(UserNotFoundException.class, () -> userService.findUser(userId));
-        verify(userRepository, times(1)).findById(userId);
+        assertThrows(UserNotFoundException.class, () -> userService.findUser(Math.toIntExact(userId)));
+        verify(userRepository, times(1)).findById(Math.toIntExact(userId));
     }
 
     @Test
     void getUserDTO_shouldReturnMappedDTO() {
         // Arrange
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(1);
+        userEntity.setUserId(1L);
 
         UserDTO expectedDTO = new UserDTO();
-        expectedDTO.setId(1);
+        expectedDTO.setId(1L);
 
         when(userMapper.userEntityToUserDTO(userEntity)).thenReturn(expectedDTO);
 
@@ -83,37 +83,37 @@ class UserServiceImplTest {
     @Test
     void getUserById_shouldReturnUser_whenUserExists() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity expectedUser = new UserEntity();
-        expectedUser.setUserId(userId);
+        expectedUser.setUserId((long) Math.toIntExact(userId));
 
-        when(userRepository.findByUserId(userId)).thenReturn(expectedUser);
+        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(expectedUser);
 
         // Act
-        UserEntity result = userService.getUserById(userId);
+        UserEntity result = userService.getUserById(Math.toIntExact(userId));
 
         // Assert
         assertNotNull(result);
         assertEquals(userId, result.getUserId());
-        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(1)).findByUserId((long) Math.toIntExact(userId));
     }
 
     @Test
     void getUserById_shouldThrowException_whenUserNotFound() {
         // Arrange
-        Integer userId = 999;
-        when(userRepository.findByUserId(userId)).thenReturn(null);
+        Long userId = 999L;
+        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(null);
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> userService.getUserById(userId));
-        verify(userRepository, times(1)).findByUserId(userId);
+        assertThrows(RuntimeException.class, () -> userService.getUserById(Math.toIntExact(userId)));
+        verify(userRepository, times(1)).findByUserId((long) Math.toIntExact(userId));
     }
 
     @Test
     void saveUser_shouldCallRepositorySave() {
         // Arrange
         UserEntity userToSave = new UserEntity();
-        userToSave.setUserId(1);
+        userToSave.setUserId(1L);
 
         // Act
         userService.saveUser(userToSave);
@@ -143,9 +143,9 @@ class UserServiceImplTest {
     @Test
     void updateUser_shouldUpdateFieldsAndReturnDTO() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity existingUser = new UserEntity();
-        existingUser.setUserId(userId);
+        existingUser.setUserId((long) Math.toIntExact(userId));
         existingUser.setFirstName("Old");
         existingUser.setLastName("Name");
         existingUser.setPhone("123");
@@ -155,10 +155,10 @@ class UserServiceImplTest {
         updateDTO.setLastName("Name");
         updateDTO.setPhone("456");
 
-        when(userRepository.findByUserId(userId)).thenReturn(existingUser);
+        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
 
         // Act
-        UpdateUserDTO result = userService.updateUser(userId, updateDTO);
+        UpdateUserDTO result = userService.updateUser(Math.toIntExact(userId), updateDTO);
 
         // Assert
         assertNotNull(result);
@@ -171,9 +171,9 @@ class UserServiceImplTest {
     @Test
     void updateUser_shouldUpdateOnlyNonNullFields() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity existingUser = new UserEntity();
-        existingUser.setUserId(userId);
+        existingUser.setUserId((long) Math.toIntExact(userId));
         existingUser.setFirstName("Old");
         existingUser.setLastName("Name");
         existingUser.setPhone("123");
@@ -182,10 +182,10 @@ class UserServiceImplTest {
         updateDTO.setFirstName("New");
         // lastName и phone остаются null
 
-        when(userRepository.findByUserId(userId)).thenReturn(existingUser);
+        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
 
         // Act
-        UpdateUserDTO result = userService.updateUser(userId, updateDTO);
+        UpdateUserDTO result = userService.updateUser(Math.toIntExact(userId), updateDTO);
 
         // Assert
         assertNotNull(result);
@@ -198,43 +198,43 @@ class UserServiceImplTest {
     @Test
     void findUserDTO_shouldReturnUserDTO() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(userId);
+        userEntity.setUserId((long) Math.toIntExact(userId));
 
         UserDTO expectedDTO = new UserDTO();
-        expectedDTO.setId(userId);
+        expectedDTO.setId((long) Math.toIntExact(userId));
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userRepository.findById(Math.toIntExact(userId))).thenReturn(Optional.of(userEntity));
         when(userMapper.userEntityToUserDTO(userEntity)).thenReturn(expectedDTO);
 
         // Act
-        UserDTO result = userService.findUserDTO(userId);
+        UserDTO result = userService.findUserDTO(Math.toIntExact(userId));
 
         // Assert
         assertNotNull(result);
         assertEquals(userId, result.getId());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findById(Math.toIntExact(userId));
         verify(userMapper, times(1)).userEntityToUserDTO(userEntity);
     }
 
     @Test
     void updatePassword_shouldThrowException_whenCurrentPasswordDoesNotMatch() {
         // Arrange
-        Integer userId = 1;
+        Long userId = 1L;
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(userId);
+        userEntity.setUserId((long) Math.toIntExact(userId));
         userEntity.setPassword("oldPassword");
 
         NewPasswordDTO passwordDTO = new NewPasswordDTO();
         passwordDTO.setCurrentPassword("wrongPassword");
         passwordDTO.setNewPassword("newPassword");
 
-        when(userRepository.findByUserId(userId)).thenReturn(userEntity);
+        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(userEntity);
 
         // Act & Assert
         assertThrows(NotEditUserPasswordException.class,
-                () -> userService.updatePassword(userId, passwordDTO));
+                () -> userService.updatePassword(Math.toIntExact(userId), passwordDTO));
         verify(userRepository, never()).save(any());
     }
 }

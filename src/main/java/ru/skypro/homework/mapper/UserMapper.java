@@ -19,14 +19,14 @@ public class UserMapper {
 
     public UserDTO userEntityToUserDTO(UserEntity userEntity) {
         UserDTO userDTO = mapper.getMapper().map(userEntity, UserDTO.class);
-        userDTO.setId(userEntity.getUserId().intValue());
+        userDTO.setId((long) userEntity.getUserId().intValue());
         userDTO.setImage("нужно подправить маппер пока нет реализации с image");
         return userDTO;
     }
 
     public UserEntity userDTOToUserEntity(UserDTO userDTO) {
         UserEntity userEntity = mapper.getMapper().map(userDTO, UserEntity.class);
-        userEntity.setUserId(userDTO.getId());
+        userEntity.setUserId((long) Math.toIntExact(userDTO.getId()));
         return userEntity;
     }
 }
