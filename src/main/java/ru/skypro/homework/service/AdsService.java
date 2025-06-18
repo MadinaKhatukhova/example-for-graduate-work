@@ -24,9 +24,9 @@ public interface AdsService {
 
     AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, Authentication authentication);
 
-    ExtendedAdDTO getAdById(int id);
+    CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment);
 
-    ExtendedAdDTO getAdById(long id);
+    ExtendedAdDTO getAdById(int id);
 
     void removeAd(int id);
 
@@ -36,7 +36,7 @@ public interface AdsService {
 
     List<AdDTO> getAdsForLoggedInUser();
 
-    boolean isAuthorAd(String email, Integer adId);
+    boolean isAuthorAd(String email, Long adId);
 
-    AdEntity findById(Integer id);
+    AdEntity findById(Long id);
 }

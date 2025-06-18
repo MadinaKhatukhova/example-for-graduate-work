@@ -7,23 +7,20 @@ import ru.skypro.homework.model.UserEntity;
 
 public interface UserService {
 
-     UserEntity findUser(Integer userId);
+    UserEntity findUser(Long userId);
 
-     UserDTO getUserDTO(UserEntity userEntity);
+    UserDTO getUserDTO(UserEntity userEntity);
 
-    UserEntity getUserById(Integer id);
+    UserEntity getUserById(Long id);
 
     void saveUser(UserEntity userEntity);
 
     UserEntity findByUsername(String email);
 
-    UpdateUserDTO updateUser(Integer userId, UpdateUserDTO updateUser);
+    UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser);
 
-    UserDTO findUserDTO(Integer userId);
+    UserDTO findUserDTO(Long userId);
 
-    void updatePassword(Integer userId, NewPasswordDTO newPasswordDTO);
-
-
-
+    void updatePassword(Long userId, NewPasswordDTO newPasswordDTO);
 
 }
