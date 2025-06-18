@@ -5,10 +5,10 @@ import ru.skypro.homework.model.CommentEntity;
 
 import java.util.List;
 
-public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
-    List<CommentEntity> findByAdId(Integer adId);
-
-    void deleteByAdIdAndId(Integer adId, Integer commentId);
-
-    CommentEntity findByAdIdAndId(Integer adId, Integer commentId);
+public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+//    List<CommentEntity> findByAdId(Integer adId);
+//
+//    void deleteByAdIdAndId(Integer adId, Integer commentId);
+//
+//    CommentEntity findByAdIdAndId(Integer adId, Integer commentId);
 }
