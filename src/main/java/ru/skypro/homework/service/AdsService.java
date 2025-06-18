@@ -22,7 +22,7 @@ public interface AdsService {
 
     List<AdDTO> getAllAds();
 
-    AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, Authentication authentication);
+    AdDTO addAd(CreateOrUpdateAdDTO properties/*, MultipartFile image*/, Authentication authentication);
 
     CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment);
 
