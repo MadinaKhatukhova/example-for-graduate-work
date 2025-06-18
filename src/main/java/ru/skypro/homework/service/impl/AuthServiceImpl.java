@@ -17,6 +17,7 @@ import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.service.AuthService;
+import ru.skypro.homework.service.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private UserMapper userMapper;
+
+    private final UserService userService;
 
     @Override
     public boolean login(String userName, String password) {
@@ -61,15 +64,25 @@ public class AuthServiceImpl implements AuthService {
         if (manager.userExists(register.getUsername())) {
             return false;
         }
-//        manager.createUser(
-//                User.builder()
-//                        .passwordEncoder(this.encoder::encode)
-//                        .password(register.getPassword())
-//                        .username(register.getUsername())
-//                        .roles(register.getRole().name())
-//                        .build());
-        UserEntity userEntity = userMapper.registerToUserEntity(register);
-        userEntity.setPassword(encoder.encode(register.getPassword()));
+        manager.createUser(
+                User.builder()
+                        .passwordEncoder(this.encoder::encode)
+                        .password(register.getPassword())
+                        .username(register.getUsername())
+                        .roles(register.getRole().name())
+                        .build());
+
+        UserEntity createdUser = userService.findByUsername(register.getUsername());
+
+//        UserEntity userEntity = userMapper.registerToUserEntity(register);
+//        userEntity.setPassword(encoder.encode(register.getPassword()));
+
+        createdUser.setFirstName(register.getFirstName());
+        createdUser.setLastName(register.getLastName());
+        createdUser.setPhone(register.getPhone());
+
+        userService.saveUser(createdUser);
+
         return true;
     }
 
