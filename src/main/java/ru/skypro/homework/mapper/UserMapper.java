@@ -1,8 +1,10 @@
 package ru.skypro.homework.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.config.MapperConfig;
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.model.UserEntity;
 
@@ -29,4 +31,12 @@ public class UserMapper {
         userEntity.setUserId((long) Math.toIntExact(userDTO.getId()));
         return userEntity;
     }
+
+    public UserEntity registerToUserEntity(Register register){
+        UserEntity userEntity = mapper.getMapper().map(register, UserEntity.class);
+        userEntity.setEmail(register.getUsername());
+        userEntity.setRole(register.getRole().name());
+        return userEntity;
+    }
+
 }
