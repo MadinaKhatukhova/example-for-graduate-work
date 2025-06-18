@@ -58,7 +58,7 @@ class CommentServiceImplTest {
         expectedCommentDTO.setPk(1);
         expectedCommentDTO.setText("Test comment");
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
         when(commentRepository.save(any(CommentEntity.class))).thenReturn(savedComment);
         when(commentMapper.toDto(savedComment)).thenReturn(expectedCommentDTO);
 
@@ -99,7 +99,7 @@ class CommentServiceImplTest {
         commentDTO2.setPk(2);
         commentDTO2.setText("Comment 2");
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
         when(commentMapper.toDto(comment1)).thenReturn(commentDTO1);
         when(commentMapper.toDto(comment2)).thenReturn(commentDTO2);
 
@@ -129,7 +129,7 @@ class CommentServiceImplTest {
 
         adEntity.setCommentEntities(List.of(comment));
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
 
         // Act
         commentService.deleteComment(Math.toIntExact(adId), commentId);
@@ -148,7 +148,7 @@ class CommentServiceImplTest {
         adEntity.setId(Long.valueOf(adId));
         adEntity.setCommentEntities(List.of()); // Пустой список комментариев
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
 
         // Act & Assert (не должно быть исключения)
         assertDoesNotThrow(() -> commentService.deleteComment(Math.toIntExact(adId), commentId));
@@ -182,7 +182,7 @@ class CommentServiceImplTest {
         expectedCommentDTO.setPk(commentId);
         expectedCommentDTO.setText("Updated comment");
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
         when(commentRepository.save(existingComment)).thenReturn(updatedComment);
         when(commentMapper.toDto(updatedComment)).thenReturn(expectedCommentDTO);
 
@@ -199,7 +199,6 @@ class CommentServiceImplTest {
     @Test
     void updateComment_shouldThrowExceptionWhenCommentNotFound() {
         CommentEntity comment = new CommentEntity();
-        when(commentRepository.findById(anyLong())).thenReturn(Optional.of(comment));
         // Arrange
         Long adId = 1L;
         Integer commentId = 999;
@@ -207,10 +206,10 @@ class CommentServiceImplTest {
         updateComment.setText("Updated comment");
 
         AdEntity adEntity = new AdEntity();
-        adEntity.setId(Long.valueOf(adId));
+        adEntity.setId(adId);
         adEntity.setCommentEntities(List.of()); // Пустой список комментариев
 
-        when(adsService.findById(Math.toIntExact(adId))).thenReturn(adEntity);
+        when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
 
         // Act & Assert
         assertThrows(RuntimeException.class, () ->

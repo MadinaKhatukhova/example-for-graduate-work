@@ -25,7 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private final AdsService adsService;
 
     @Override
-    public CommentDTO addComment(Integer adId, CreateOrUpdateCommentDTO comment) {
+    public CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment) {
         AdEntity adEntity = adsService.findById(adId);
         CommentEntity newComment = new CommentEntity();
         newComment.setAdEntity(adEntity);
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentsDTO getComments(Integer adId) {
+    public CommentsDTO getComments(long adId) {
         AdEntity adEntity = adsService.findById(adId);
         List<CommentEntity> allByAdId = adEntity.getCommentEntities();
         List<CommentDTO> result = new ArrayList<>();
@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Integer adId, Integer commentId) {
+    public void deleteComment(long adId, long commentId) {
         AdEntity adEntity = adsService.findById(adId);
         List<CommentEntity> commentEntities = adEntity.getCommentEntities();
         for (CommentEntity commentEntity : commentEntities) {
@@ -63,13 +63,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO comment) {
-        return null;
-    }
-
-    @Override
-    public CommentDTO updateComment(Long adId, Long commentId, CreateOrUpdateCommentDTO comment) {
-        AdEntity adEntity = adsService.findById(Math.toIntExact(adId));
+    public CommentDTO updateComment(long adId, long commentId, CreateOrUpdateCommentDTO comment) {
+        AdEntity adEntity = adsService.findById(adId);
         List<CommentEntity> commentEntities = adEntity.getCommentEntities();
         for (CommentEntity existingComment : commentEntities) {
             if (existingComment.getCommentId().equals(commentId)) {

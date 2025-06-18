@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
+import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
+import ru.skypro.homework.model.CommentEntity;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdsService;
@@ -57,13 +59,22 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ExtendedAdDTO getAdById(int id) {
-        return null;
+    public CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment){
+        CommentEntity newComment = new CommentEntity();
+        AdEntity byId;
+        try {
+            byId = findById(id.longValue());
+        } catch (Exception e){
+            throw new RuntimeException("Не найдено объвление по его id");
+        }
+        newComment.setAdEntity(byId);
+        newComment.setText(comment.getText());
+        return commentRepository.save(newComment);
     }
 
     @Override
-    public ExtendedAdDTO getAdById(long id) {
-        Optional<AdEntity> adEntityOptional = adRepository.findById(id);
+    public ExtendedAdDTO getAdById(int id) {
+        Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
             return adMapper.adEntityToExtendedAd(adEntity); // Преобразование в ExtendedAd
@@ -108,13 +119,18 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public boolean isAuthorAd(String email, Integer adId) {
-        AdEntity adEntity = adRepository.findById(Long.valueOf(adId)).orElseThrow(RuntimeException::new);
+    public boolean isAuthorAd(String email, Long adId) {
+        AdEntity adEntity = adRepository.findById(adId).orElseThrow(RuntimeException::new);
         return adEntity.getEmail().equals(email);
     }
 
     @Override
-    public AdEntity findById(Integer id) {
-        return adRepository.findById(Long.valueOf(id)).get();
+    public AdEntity findById(Long id) {
+        try{
+            return adRepository.findById(id).get();
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
+
 }

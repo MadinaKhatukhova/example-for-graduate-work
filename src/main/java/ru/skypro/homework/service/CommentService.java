@@ -10,16 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface CommentService {
-    CommentDTO addComment(Integer adId, CreateOrUpdateCommentDTO comment);
+    CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment);
 
     // Возвращает список комментариев к объявлению.
-    CommentsDTO getComments(Integer adId);
+    CommentsDTO getComments(long adId);
 
     // Удаляет комментарий к объявлению.
-    void deleteComment(Integer adId, Integer commentId);
+    void deleteComment(long adId, long commentId);
 
     // Обновляет комментарий у объявления.
-    CommentDTO updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDTO comment);
+    CommentDTO updateComment(long adId, long commentId, CreateOrUpdateCommentDTO comment);
 
-    CommentDTO updateComment(Long adId, Long commentId, CreateOrUpdateCommentDTO comment);
 }
