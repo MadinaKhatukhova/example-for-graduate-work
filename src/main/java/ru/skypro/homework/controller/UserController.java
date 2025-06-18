@@ -18,10 +18,10 @@ public class UserController {
 
 //    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 //    private final ImageService service;
-//
+
     @Autowired
     private UserService userService;
-//
+
 //    @Autowired
 //    public UserController(ImageService service) {
 //        this.service = service;
@@ -36,7 +36,6 @@ public class UserController {
 //    })
     public ResponseEntity<Void> setPassword(@RequestBody NewPasswordDTO newPasswordDTO) {
         try {
-            // Здесь заглушка, тк пользователя не получаем(Лола поправить)
             Long userId = 1L;
             userService.updatePassword(userId, newPasswordDTO);
             return ResponseEntity.ok().build();
