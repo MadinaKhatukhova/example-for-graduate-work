@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.CommentDTO;
@@ -20,14 +21,14 @@ public class CommentController {
     @GetMapping
     public ResponseEntity<CommentsDTO> getComments(@PathVariable long adId) {
         CommentsDTO comments = commentService.getComments(adId);
-        return ResponseEntity.ok(comments);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<CommentDTO> addComment(@PathVariable long adId,
                                                  @RequestBody CreateOrUpdateCommentDTO comment) {
         CommentDTO addedComment = commentService.addComment(adId, comment);
-        return ResponseEntity.ok(addedComment);
+        return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{commentId}")
@@ -42,7 +43,7 @@ public class CommentController {
                                                     @PathVariable long commentId,
                                                     @RequestBody CreateOrUpdateCommentDTO comment) {
         CommentDTO updatedComment = commentService.updateComment(adId, commentId, comment);
-        return ResponseEntity.ok(updatedComment);
+        return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 }
 
