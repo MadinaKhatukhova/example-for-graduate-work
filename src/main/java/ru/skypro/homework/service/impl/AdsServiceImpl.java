@@ -50,10 +50,10 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, Authentication authentication) {
+    public AdDTO addAd(CreateOrUpdateAdDTO properties /*,MultipartFile image*/, Authentication authentication) {
         AdEntity adEntity = adMapper.createOrUpdateAdToAdEntity(properties);
         // Сохранение изображения и установка пути к изображению в сущность
-        adEntity.setImage(image.getOriginalFilename());
+        //adEntity.setImage(image.getOriginalFilename());
         AdEntity savedAd = adRepository.save(adEntity);
         return adMapper.toDto(savedAd);
     }
