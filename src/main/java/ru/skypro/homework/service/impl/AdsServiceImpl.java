@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.AdDTO;
-import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
-import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
-import ru.skypro.homework.dto.ExtendedAdDTO;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
@@ -19,6 +16,7 @@ import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdsService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -128,8 +126,16 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public List<AdDTO> getAdsForLoggedInUser() {
-        return null;
+    public AdsDTO getAdsForLoggedInUser(UserEntity userEntity) {
+        AdsDTO adsDTO = new AdsDTO();
+        List<AdEntity> adEntity1 = userEntity.getAdEntity();
+        List<AdDTO> result = new ArrayList<>(List.of());
+        for (AdEntity adEntity : adEntity1) {
+            result.add(getAdDTO(adEntity));
+        }
+        adsDTO.setResults(result);
+        adsDTO.setCount(result.size());
+        return adsDTO;
     }
 
     @Override

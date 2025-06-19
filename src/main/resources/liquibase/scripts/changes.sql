@@ -71,3 +71,22 @@ CREATE SEQUENCE IF NOT EXISTS users_seq START WITH 1 INCREMENT BY 50;
 ALTER TABLE advertisement ADD COLUMN image_id BIGINT;
 ALTER TABLE advertisement ADD CONSTRAINT fk_advertisement_image
     FOREIGN KEY (image_id) REFERENCES image(id);
+
+--changeset Dm:4
+ALTER TABLE comments ADD COLUMN user_entity_id BIGINT;
+ALTER TABLE comments ADD CONSTRAINT fk_comment_user
+    FOREIGN KEY (user_entity_id) REFERENCES users(user_id);
+
+ALTER TABLE advertisement ADD COLUMN user_entity_id BIGINT;
+ALTER TABLE advertisement ADD CONSTRAINT fk_ad_user
+    FOREIGN KEY (user_entity_id) REFERENCES users(user_id);
+
+
+ALTER TABLE users ADD COLUMN image_id BIGINT;
+ALTER TABLE users ADD CONSTRAINT fk_user_image
+    FOREIGN KEY (image_id) REFERENCES image(id);
+
+--changeset Dm:5
+ALTER TABLE comments ADD COLUMN user_id BIGINT NOT NULL;
+ALTER TABLE comments ADD CONSTRAINT fk_comments_user
+    FOREIGN KEY (user_id) REFERENCES users(user_id);

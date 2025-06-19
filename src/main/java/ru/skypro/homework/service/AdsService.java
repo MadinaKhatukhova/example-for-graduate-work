@@ -3,10 +3,7 @@ package ru.skypro.homework.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.AdDTO;
-import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
-import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
-import ru.skypro.homework.dto.ExtendedAdDTO;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
@@ -35,7 +32,7 @@ public interface AdsService {
 
     void updateAdImage(int id, MultipartFile image);
 
-    List<AdDTO> getAdsForLoggedInUser();
+    AdsDTO getAdsForLoggedInUser(UserEntity userEntity);
 
     boolean isAuthorAd(String email, Long adId);
 

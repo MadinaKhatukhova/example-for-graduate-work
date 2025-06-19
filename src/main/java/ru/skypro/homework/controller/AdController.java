@@ -12,7 +12,9 @@ import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.AdsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
+import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.service.AdsService;
+import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +24,9 @@ import java.util.List;
 public class AdController {
     @Autowired
     private AdsService adsService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<AdDTO>> getAllAds() {
@@ -57,8 +62,9 @@ public class AdController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<AdDTO>> getAuthUserAdds() {
-        List<AdDTO> ads = adsService.getAdsForLoggedInUser();
+    public ResponseEntity<AdsDTO> getAuthUserAdds(Authentication authentication) {
+        UserEntity userEntity = userService.findByUsername(authentication.getName());
+        AdsDTO ads = adsService.getAdsForLoggedInUser(userEntity);
         return ResponseEntity.ok(ads);
     }
 
