@@ -56,11 +56,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(Long.valueOf(username), updateUser));
     }
     @PatchMapping("/me/image")
-//    @Operation(summary = "Обновление аватара авторизованного пользователя")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "OK"),
-//            @ApiResponse(responseCode = "401", description = "Unauthorized")
-//    })
+
     public ResponseEntity<?> updateUserImage(@RequestParam("image") MultipartFile image,
                                              Authentication authentication) throws IOException {
         try {
