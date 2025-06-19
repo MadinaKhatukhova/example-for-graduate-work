@@ -16,7 +16,6 @@ import ru.skypro.homework.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-//    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 //    private final ImageService service;
 
     @Autowired
