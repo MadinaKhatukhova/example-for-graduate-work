@@ -1,6 +1,5 @@
 package ru.skypro.homework.controller;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,14 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skypro.homework.model.ImageEntity;
 import ru.skypro.homework.service.ImageService;
+import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 @RestController
 @RequestMapping("/image")
-@AllArgsConstructor
 public class ImageController {
 
+    private final ImageService imageService;
+
     @Autowired
-    private ImageService imageService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @GetMapping(
             value = "/{id}",

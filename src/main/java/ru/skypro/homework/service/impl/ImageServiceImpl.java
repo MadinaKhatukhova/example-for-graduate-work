@@ -1,7 +1,6 @@
 package ru.skypro.homework.service.impl;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,16 +23,25 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
     private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
     @Value("${avatar.image.directory}")
-    private String avatarsDir;
+    private final String avatarsDir;
 
     private final UserService userService;
 
     private final ImageRepository imageRepository;
+
+    @Autowired
+    public ImageServiceImpl(
+            UserService userService,
+            ImageRepository imageRepository,
+            @Value("${avatar.image.directory}") String avatarsDir) {
+        this.userService = userService;
+        this.imageRepository = imageRepository;
+        this.avatarsDir = avatarsDir;
+    }
 
     //Загружает изображение для пользователя по его ID.
     @Override

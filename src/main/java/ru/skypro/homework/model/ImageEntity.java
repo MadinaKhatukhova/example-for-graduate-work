@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "image")
 public class ImageEntity {
 
