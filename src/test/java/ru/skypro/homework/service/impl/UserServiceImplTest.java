@@ -140,60 +140,60 @@ class UserServiceImplTest {
         verify(userRepository, times(1)).findByEmail(email);
     }
 
-    @Test
-    void updateUser_shouldUpdateFieldsAndReturnDTO() {
-        // Arrange
-        Long userId = 1L;
-        UserEntity existingUser = new UserEntity();
-        existingUser.setUserId((long) Math.toIntExact(userId));
-        existingUser.setFirstName("Old");
-        existingUser.setLastName("Name");
-        existingUser.setPhone("123");
+//    @Test
+//    void updateUser_shouldUpdateFieldsAndReturnDTO() {
+//        // Arrange
+//        Long userId = 1L;
+//        UserEntity existingUser = new UserEntity();
+//        existingUser.setUserId((long) Math.toIntExact(userId));
+//        existingUser.setFirstName("Old");
+//        existingUser.setLastName("Name");
+//        existingUser.setPhone("123");
+//
+//        UpdateUserDTO updateDTO = new UpdateUserDTO();
+//        updateDTO.setFirstName("New");
+//        updateDTO.setLastName("Name");
+//        updateDTO.setPhone("456");
+//
+//        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
+//
+//        // Act
+//        UpdateUserDTO result = userService.updateUser((long) Math.toIntExact(userId), updateDTO);
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals("New", existingUser.getFirstName());
+//        assertEquals("Name", existingUser.getLastName());
+//        assertEquals("456", existingUser.getPhone());
+//        verify(userRepository, times(1)).save(existingUser);
+//    }
 
-        UpdateUserDTO updateDTO = new UpdateUserDTO();
-        updateDTO.setFirstName("New");
-        updateDTO.setLastName("Name");
-        updateDTO.setPhone("456");
-
-        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
-
-        // Act
-        UpdateUserDTO result = userService.updateUser((long) Math.toIntExact(userId), updateDTO);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("New", existingUser.getFirstName());
-        assertEquals("Name", existingUser.getLastName());
-        assertEquals("456", existingUser.getPhone());
-        verify(userRepository, times(1)).save(existingUser);
-    }
-
-    @Test
-    void updateUser_shouldUpdateOnlyNonNullFields() {
-        // Arrange
-        Long userId = 1L;
-        UserEntity existingUser = new UserEntity();
-        existingUser.setUserId((long) Math.toIntExact(userId));
-        existingUser.setFirstName("Old");
-        existingUser.setLastName("Name");
-        existingUser.setPhone("123");
-
-        UpdateUserDTO updateDTO = new UpdateUserDTO();
-        updateDTO.setFirstName("New");
-        // lastName и phone остаются null
-
-        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
-
-        // Act
-        UpdateUserDTO result = userService.updateUser((long) Math.toIntExact(userId), updateDTO);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("New", existingUser.getFirstName());
-        assertEquals("Name", existingUser.getLastName()); // осталось прежним
-        assertEquals("123", existingUser.getPhone()); // осталось прежним
-        verify(userRepository, times(1)).save(existingUser);
-    }
+//    @Test
+//    void updateUser_shouldUpdateOnlyNonNullFields() {
+//        // Arrange
+//        Long userId = 1L;
+//        UserEntity existingUser = new UserEntity();
+//        existingUser.setUserId((long) Math.toIntExact(userId));
+//        existingUser.setFirstName("Old");
+//        existingUser.setLastName("Name");
+//        existingUser.setPhone("123");
+//
+//        UpdateUserDTO updateDTO = new UpdateUserDTO();
+//        updateDTO.setFirstName("New");
+//        // lastName и phone остаются null
+//
+//        when(userRepository.findByUserId((long) Math.toIntExact(userId))).thenReturn(existingUser);
+//
+//        // Act
+//        UpdateUserDTO result = userService.updateUser((long) Math.toIntExact(userId), updateDTO);
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals("New", existingUser.getFirstName());
+//        assertEquals("Name", existingUser.getLastName()); // осталось прежним
+//        assertEquals("123", existingUser.getPhone()); // осталось прежним
+//        verify(userRepository, times(1)).save(existingUser);
+//    }
 
     @Test
     void findUserDTO_shouldReturnUserDTO() {

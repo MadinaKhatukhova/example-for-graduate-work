@@ -18,6 +18,8 @@ import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.UserService;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -58,8 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //Обновляет информацию о пользователе.
-    public UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
+    public UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser) {
         if (updateUser.getFirstName() != null) {
             userEntity.setFirstName(updateUser.getFirstName());
         }

@@ -46,17 +46,22 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getUser(Authentication authentication) {
         String username = authentication.getName();
-        return ResponseEntity.ok(userService.findUserDTO(Long.valueOf(username)));
+        UserDTO userDTO = userService.getUserDTO(userService.findByUsername(username));
+        return ResponseEntity.ok(userDTO);
     }
 
     @PatchMapping("/me")
     public ResponseEntity<UpdateUserDTO> updateUser(@RequestBody UpdateUserDTO updateUser,
                                                     Authentication authentication) {
-        String username = authentication.getName();
-        return ResponseEntity.ok(userService.updateUser(Long.valueOf(username), updateUser));
+        String userName = authentication.getName();
+        return ResponseEntity.ok(
+                userService.updateUser(
+                        userService.findByUsername(userName),
+                        updateUser)
+        );
     }
-    @PatchMapping("/me/image")
 
+    @PatchMapping("/me/image")
     public ResponseEntity<?> updateUserImage(@RequestParam("image") MultipartFile image,
                                              Authentication authentication) throws IOException {
         try {

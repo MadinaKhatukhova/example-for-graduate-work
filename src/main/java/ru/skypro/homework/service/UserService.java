@@ -5,6 +5,8 @@ import ru.skypro.homework.dto.UpdateUserDTO;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.model.UserEntity;
 
+import java.util.Optional;
+
 public interface UserService {
 
     UserEntity findUser(Long userId);
@@ -17,7 +19,7 @@ public interface UserService {
 
     UserEntity findByUsername(String email);
 
-    UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser);
+    UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser);
 
     UserDTO findUserDTO(Long userId);
 
