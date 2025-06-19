@@ -4,6 +4,7 @@ package ru.skypro.homework.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     //Находит пользователя по его идентификатору.
     public UserEntity findUser(Long userId) {
@@ -81,12 +83,17 @@ public class UserServiceImpl implements UserService {
 
     //Обновляет пароль пользователя.
     public void updatePassword(Long userId, NewPasswordDTO newPasswordDTO) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
-        if (userEntity.getPassword().equals(newPasswordDTO.getCurrentPassword())) {
-            userEntity.setPassword(newPasswordDTO.getNewPassword());
-        } else {
-            throw new NotEditUserPasswordException("not edited password");
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // Проверяем текущий пароль
+        if (!passwordEncoder.matches(newPasswordDTO.getCurrentPassword(), userEntity.getPassword())) {
+            throw new NotEditUserPasswordException("Current password is incorrect");
         }
+
+        // Устанавливаем и кодируем новый пароль
+        userEntity.setPassword(passwordEncoder.encode(newPasswordDTO.getNewPassword()));
+        userRepository.save(userEntity);
     }
 
 }

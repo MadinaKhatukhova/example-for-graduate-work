@@ -48,41 +48,35 @@ public class ImageServiceImpl implements ImageService {
     public void uploadImage(Long userId, MultipartFile image) throws IOException {
         UserEntity userEntity = userService.getUserById(userId);
 
-        Path filePath;
-        try {
-            filePath = Path.of(avatarsDir, userEntity + "." + getExtensions(Objects.requireNonNull(image.getOriginalFilename())));
-        } catch (Exception e) {
-            throw new RuntimeException("ошибка сохранения фотографии в БД");
+        // Проверка файла
+        if (image.isEmpty()) {
+            throw new IllegalArgumentException("File is empty");
         }
-        Files.createDirectories(filePath.getParent());
-        Files.deleteIfExists(filePath);
-
-        //работа с потоками
-        try (
-                InputStream is = image.getInputStream();
-                OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
-                BufferedInputStream bis = new BufferedInputStream(is, 1024);
-                BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
-        ) {
-            bis.transferTo(bos);
+        if (!image.getContentType().startsWith("image/")) {
+            throw new IllegalArgumentException("Only images are allowed");
         }
 
-        ImageEntity newImageEntity;
-        newImageEntity = imageRepository.findImageByFilePath(filePath.toString());
-
-        if (newImageEntity == null) {
-            newImageEntity = new ImageEntity();
+        // Создание/обновление ImageEntity
+        ImageEntity imageEntity = userEntity.getImageEntity();
+        if (imageEntity == null) {
+            imageEntity = new ImageEntity();
         }
-        newImageEntity.setImageId(userId);
-        newImageEntity.setData(image.getBytes());
-        newImageEntity.setFilePath(filePath.toString());
-        newImageEntity.setMediaType(image.getContentType());
-        newImageEntity.setFileSize(image.getSize());
 
-        imageRepository.save(newImageEntity);
+        imageEntity.setData(image.getBytes());
+        imageEntity.setMediaType(image.getContentType());
+        imageEntity.setFileSize(image.getSize());
+        imageEntity.setFilePath(generateFilePath(userEntity, image));
 
-        userEntity.setImageEntity(newImageEntity);
+        imageRepository.save(imageEntity);
+
+        // Обновляем ссылку у пользователя
+        userEntity.setImageEntity(imageEntity);
         userService.saveUser(userEntity);
+    }
+
+    private String generateFilePath(UserEntity user, MultipartFile image) {
+        String extension = getExtensions(image.getOriginalFilename());
+        return Path.of(avatarsDir, user.getEmail() + "." + extension).toString();
     }
 
     //Извлекает расширение файла из его имени.
