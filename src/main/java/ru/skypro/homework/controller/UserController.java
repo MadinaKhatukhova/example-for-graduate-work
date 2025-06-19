@@ -1,6 +1,7 @@
 package ru.skypro.homework.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import ru.skypro.homework.dto.NewPasswordDTO;
 import ru.skypro.homework.dto.UpdateUserDTO;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.exception.NotEditUserPasswordException;
+import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
 @Slf4j
@@ -17,16 +19,14 @@ import ru.skypro.homework.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-//    private final ImageService service;
-
-    @Autowired
-    private UserService userService;
+    private final ImageService imageService;
   
     private final UserService userService;
 
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ImageService imageService) {
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     @PostMapping("/set_password")
@@ -53,4 +53,5 @@ public class UserController {
         String username = authentication.getName();
         return ResponseEntity.ok(userService.updateUser(Long.valueOf(username), updateUser));
     }
+
 }
