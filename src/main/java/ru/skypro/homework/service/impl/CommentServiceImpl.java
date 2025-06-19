@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
         newComment.setText(comment.getText());
 
         CommentEntity savedComment = commentRepository.save(newComment);
-        return commentMapper.toDto(savedComment);
+        return commentMapper.commentEntityToCommentDTO(savedComment);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDTO> result = new ArrayList<>();
 
         for (CommentEntity commentEntity : allByAdId) {
-            result.add(commentMapper.toDto(commentEntity));
+            result.add(commentMapper.commentEntityToCommentDTO(commentEntity));
         }
         CommentsDTO comments = new CommentsDTO();
         comments.setResults(result);
@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
             if (existingComment.getCommentId().equals(commentId)) {
                 existingComment.setText(comment.getText());
                 CommentEntity savedComment = commentRepository.save(existingComment);
-                return commentMapper.toDto(savedComment);
+                return commentMapper.commentEntityToCommentDTO(savedComment);
             }
             throw new RuntimeException("Комментарий не найден");
         }

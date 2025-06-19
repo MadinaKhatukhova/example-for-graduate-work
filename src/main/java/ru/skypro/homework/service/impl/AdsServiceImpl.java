@@ -34,19 +34,19 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public AdDTO getAdDTO(AdEntity adEntity) {
-        return adMapper.toDto(adEntity);
+        return adMapper.adEntityToAdDTO(adEntity);
     }
 
     @Override
     public AdEntity getAd(AdDTO adDTO) {
-        return adMapper.toEntity(adDTO);
+        return adMapper.adDTOToAdEntityWithoutId(adDTO);
     }
 
     @Override
     public List<AdDTO> getAllAds() {
         List<AdEntity> adEntities = adRepository.findAll();
         return adEntities.stream()
-                .map(adMapper::toDto)
+                .map(adMapper::adEntityToAdDTO)
                 .collect(Collectors.toList());
     }
 
@@ -67,7 +67,7 @@ public class AdsServiceImpl implements AdsService {
         // Сохранение изображения и установка пути к изображению в сущность
         adEntity.setImage(image.getOriginalFilename());
         AdEntity savedAd = adRepository.save(adEntity);
-        return adMapper.toDto(savedAd);
+        return adMapper.adEntityToAdDTO(savedAd);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class AdsServiceImpl implements AdsService {
             AdEntity adEntity = adEntityOptional.get();
             adMapper.createOrUpdateAdToAdEntity(ad);
             AdEntity updatedAd = adRepository.save(adEntity);
-            return adMapper.toDto(updatedAd); // Преобразование и возврат обновленного объявления
+            return adMapper.adEntityToAdDTO(updatedAd); // Преобразование и возврат обновленного объявления
         } else {
             throw new RuntimeException("Ad not found");
         }

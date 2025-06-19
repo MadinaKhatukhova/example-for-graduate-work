@@ -1,6 +1,9 @@
 package ru.skypro.homework.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.skypro.homework.config.MapperConfig;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
@@ -8,45 +11,48 @@ import ru.skypro.homework.model.AdEntity;
 
 @Service
 public class AdMapper {
-    // Преобразование Entity → DTO
-    public AdDTO toDto(AdEntity entity) {
-        AdDTO dto = new AdDTO();
-        dto.setPk(Math.toIntExact(entity.getId()));  // Особое внимание на pk → id
-        dto.setImage(entity.getImage());
-        dto.setPrice(entity.getPrice());
-        dto.setTitle(entity.getTitle());
-        return dto;
+    @Value("${download.url}")
+    protected String downloadUrl;
+
+    private final MapperConfig mapper;
+
+    @Autowired
+    public AdMapper(MapperConfig mapper) {
+        this.mapper = mapper;
     }
 
-    // Преобразование DTO → Entity
-    public AdEntity toEntity(AdDTO dto) {
-        AdEntity entity = new AdEntity();
-        entity.setId(Long.valueOf(dto.getPk()));  // Особое внимание на id → pk
-        entity.setImage(dto.getImage());
-        entity.setPrice(dto.getPrice());
-        entity.setTitle(dto.getTitle());
-        return entity;
+    public AdDTO adEntityToAdDTO(AdEntity adEntity) {
+        AdDTO adDTO = mapper.getMapper().map(adEntity, AdDTO.class);
+        adDTO.setImage(adEntity.getImageEntity() == null ? null : downloadUrl + adEntity.getImageEntity().getId());
+
+        adDTO.setAuthor(adEntity.getUserEntity().getUserId().intValue());
+        adDTO.setPk(adEntity.getId().intValue());
+        return adDTO;
     }
 
-    public AdEntity createOrUpdateAdToAdEntity(CreateOrUpdateAdDTO dto){
-        AdEntity entity = new AdEntity();
-        entity.setTitle(dto.getTitle());
-        entity.setPrice(dto.getPrice());
-        return entity;
+    public AdEntity adDTOToAdEntityWithoutId(AdDTO adDTO) {
+        AdEntity adEntity = mapper.getMapper().map(adDTO, AdEntity.class);
+        adEntity.setId(null); // Убедитесь, что ID не установлен при создании новой сущности
+        return adEntity;
     }
 
-    public ExtendedAdDTO adEntityToExtendedAd(AdEntity entity){
-        ExtendedAdDTO dto = new ExtendedAdDTO();
-        dto.setPk(Math.toIntExact(entity.getId()));
-        dto.setAuthorFirstName(entity.getEmail());
-        dto.setAuthorLastName(entity.getEmail());
-        dto.setImage(entity.getImage());
-        dto.setPrice(entity.getPrice());
-        dto.setTitle(entity.getTitle());
-        dto.setDescription(entity.getTitle());
-        dto.setPhone(entity.getTitle());
-        dto.setEmail(entity.getEmail());
-        return dto;
+    public AdEntity createOrUpdateAdToAdEntity(CreateOrUpdateAdDTO createOrUpdateAd) {
+        return mapper.getMapper().map(createOrUpdateAd, AdEntity.class);
+    }
+
+    public void updateAdEntityFromDto(CreateOrUpdateAdDTO createOrUpdateAd, AdEntity adEntity) {
+        adEntity.setPrice(createOrUpdateAd.getPrice());
+        adEntity.setTitle(createOrUpdateAd.getTitle());
+    }
+
+    public ExtendedAdDTO adEntityToExtendedAd(AdEntity adEntity) {
+        ExtendedAdDTO extendedAd = new ExtendedAdDTO();
+        extendedAd.setPk(adEntity.getId().intValue()); // Приводим Long к Integer
+        extendedAd.setImage(adEntity.getImageEntity() == null ? "" : downloadUrl + adEntity.getImageEntity().getId());
+
+        extendedAd.setPrice(adEntity.getPrice());
+        extendedAd.setTitle(adEntity.getTitle());
+        return extendedAd;
     }
 
 }

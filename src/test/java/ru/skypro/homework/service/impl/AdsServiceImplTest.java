@@ -47,8 +47,8 @@ class AdsServiceImplTest {
         AdDTO adDTO2 = new AdDTO();
 
         when(adRepository.findAll()).thenReturn(adEntities);
-        when(adMapper.toDto(adEntity1)).thenReturn(adDTO1);
-        when(adMapper.toDto(adEntity2)).thenReturn(adDTO2);
+        when(adMapper.adEntityToAdDTO(adEntity1)).thenReturn(adDTO1);
+        when(adMapper.adEntityToAdDTO(adEntity2)).thenReturn(adDTO2);
 
         // Act
         List<AdDTO> result = adsService.getAllAds();
@@ -82,7 +82,7 @@ class AdsServiceImplTest {
 
         when(adMapper.createOrUpdateAdToAdEntity(createAdDTO)).thenReturn(savedAdEntity);
         when(adRepository.save(savedAdEntity)).thenReturn(savedAdEntity);
-        when(adMapper.toDto(savedAdEntity)).thenReturn(expectedAdDTO);
+        when(adMapper.adEntityToAdDTO(savedAdEntity)).thenReturn(expectedAdDTO);
 
         // Act
         AdDTO result = adsService.addAd(createAdDTO, image, userEntity);
