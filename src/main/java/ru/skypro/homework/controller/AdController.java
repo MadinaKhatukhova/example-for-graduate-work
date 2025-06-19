@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.config.UserPrincipal;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.AdsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
@@ -28,9 +30,10 @@ public class AdController {
     }
 
     @PostMapping
-    public ResponseEntity<AdDTO> postAdd(@RequestParam("properties")CreateOrUpdateAdDTO properties,
-                                         Authentication authentication) throws IOException {
-        AdDTO ad = adsService.addAd(properties, authentication);
+    public ResponseEntity<AdDTO> addAd (@RequestPart("properties") CreateOrUpdateAdDTO properties,
+                                        @RequestPart("image") MultipartFile image,
+                                        @AuthenticationPrincipal UserPrincipal authentication) throws IOException {
+        AdDTO ad = adsService.addAd(properties, image, authentication.getUser());
         return new ResponseEntity<>(ad, HttpStatus.CREATED);
     }
 

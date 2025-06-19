@@ -65,3 +65,9 @@ ALTER TABLE image
 
 --changeset Dm:2
 CREATE SEQUENCE IF NOT EXISTS users_seq START WITH 1 INCREMENT BY 50;
+
+
+--changeset Dm:3
+ALTER TABLE advertisement ADD COLUMN image_id BIGINT;
+ALTER TABLE advertisement ADD CONSTRAINT fk_advertisement_image
+    FOREIGN KEY (image_id) REFERENCES image(id);

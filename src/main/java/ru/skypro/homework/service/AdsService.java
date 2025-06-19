@@ -10,6 +10,7 @@ import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
+import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 
@@ -22,7 +23,7 @@ public interface AdsService {
 
     List<AdDTO> getAllAds();
 
-    AdDTO addAd(CreateOrUpdateAdDTO properties/*, MultipartFile image*/, Authentication authentication);
+    AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, UserEntity userEntity);
 
     CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment);
 

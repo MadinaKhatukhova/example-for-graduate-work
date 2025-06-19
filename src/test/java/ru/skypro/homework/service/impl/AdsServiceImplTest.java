@@ -12,6 +12,7 @@ import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
+import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.repository.AdRepository;
 
 import java.util.List;
@@ -30,7 +31,7 @@ class AdsServiceImplTest {
     private AdMapper adMapper;
 
     @Mock
-    private Authentication authentication;
+    private UserEntity userEntity;
 
     @InjectMocks
     private AdsServiceImpl adsService;
@@ -84,7 +85,7 @@ class AdsServiceImplTest {
         when(adMapper.toDto(savedAdEntity)).thenReturn(expectedAdDTO);
 
         // Act
-        AdDTO result = adsService.addAd(createAdDTO, image, authentication);
+        AdDTO result = adsService.addAd(createAdDTO, image, userEntity);
 
         // Assert
         assertNotNull(result);
