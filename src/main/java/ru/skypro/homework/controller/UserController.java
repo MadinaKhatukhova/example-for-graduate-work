@@ -22,7 +22,7 @@ import java.io.IOException;
 public class UserController {
 
     private final ImageService imageService;
-
+  
     private final UserService userService;
 
 
@@ -55,8 +55,8 @@ public class UserController {
         String username = authentication.getName();
         return ResponseEntity.ok(userService.updateUser(Long.valueOf(username), updateUser));
     }
-
     @PatchMapping("/me/image")
+
     public ResponseEntity<?> updateUserImage(@RequestParam("image") MultipartFile image,
                                              Authentication authentication) throws IOException {
         try {
