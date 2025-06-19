@@ -90,3 +90,9 @@ ALTER TABLE users ADD CONSTRAINT fk_user_image
 ALTER TABLE comments ADD COLUMN user_id BIGINT NOT NULL;
 ALTER TABLE comments ADD CONSTRAINT fk_comments_user
     FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+--changeset Dm:6
+ALTER TABLE image RENAME COLUMN id to imageId
+
+--changeset Dm:7
+ALTER TABLE image RENAME COLUMN imageId to image_id

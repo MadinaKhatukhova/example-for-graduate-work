@@ -13,7 +13,7 @@ public class ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long imageId;
     private String filePath;
     private long fileSize;
     private String mediaType;

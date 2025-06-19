@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
     //Загружает изображение для пользователя по его ID.
     @Override
     public void uploadImage(Long userId, MultipartFile image) throws IOException {
-        UserEntity userEntity = userService.getUserById(userId); //поиск нужного студента
+        UserEntity userEntity = userService.getUserById(userId);
 
         Path filePath;
         try {
@@ -73,13 +73,16 @@ public class ImageServiceImpl implements ImageService {
         if (newImageEntity == null) {
             newImageEntity = new ImageEntity();
         }
-        newImageEntity.setId(userId);
+        newImageEntity.setImageId(userId);
         newImageEntity.setData(image.getBytes());
         newImageEntity.setFilePath(filePath.toString());
         newImageEntity.setMediaType(image.getContentType());
         newImageEntity.setFileSize(image.getSize());
 
         imageRepository.save(newImageEntity);
+
+        userEntity.setImageEntity(newImageEntity);
+        userService.saveUser(userEntity);
     }
 
     //Извлекает расширение файла из его имени.

@@ -6,7 +6,7 @@ import ru.skypro.homework.model.ImageEntity;
 
 @Repository
 public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
-    ImageEntity findImageById(Long userId);
+    ImageEntity findImageByImageId(Long userId);
 
     ImageEntity findImageByFilePath(String filePath);
 }

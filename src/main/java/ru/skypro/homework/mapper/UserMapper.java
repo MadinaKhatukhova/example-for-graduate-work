@@ -24,13 +24,13 @@ public class UserMapper {
     public UserDTO userEntityToUserDTO(UserEntity userEntity) {
         UserDTO userDTO = mapper.getMapper().map(userEntity, UserDTO.class);
         userDTO.setId(userEntity.getUserId());
-        userDTO.setImage(userEntity.getImageEntity() == null ? "" : downloadUrl + userEntity.getImageEntity().getId());
+        userDTO.setImage(userEntity.getImageEntity() == null ? "" : downloadUrl + userEntity.getImageEntity().getImageId());
         return userDTO;
     }
 
     public UserEntity userDTOToUserEntity(UserDTO userDTO) {
         UserEntity userEntity = mapper.getMapper().map(userDTO, UserEntity.class);
-        userEntity.setUserId(userDTO.getId().longValue());
+        userEntity.setUserId(userDTO.getId());
         return userEntity;
     }
 
