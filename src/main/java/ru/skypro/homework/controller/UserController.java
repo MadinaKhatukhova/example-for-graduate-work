@@ -36,13 +36,14 @@ public class UserController {
 
     @PostMapping("/set_password")
     public ResponseEntity<Void> setPassword(@RequestBody NewPasswordDTO newPasswordDTO,
-                                            Authentication authentication) {
+                                            @AuthenticationPrincipal UserPrincipal userPrincipal) {
         try {
-            String username = authentication.getName();
-            userService.updatePassword(Long.valueOf(username), newPasswordDTO);
+            userService.updatePassword(userPrincipal.getUser().getUserId(), newPasswordDTO);
             return ResponseEntity.ok().build();
         } catch (NotEditUserPasswordException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
