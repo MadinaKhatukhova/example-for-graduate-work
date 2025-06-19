@@ -2,10 +2,13 @@ package ru.skypro.homework.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.config.UserPrincipal;
 import ru.skypro.homework.dto.NewPasswordDTO;
 import ru.skypro.homework.dto.UpdateUserDTO;
 import ru.skypro.homework.dto.UserDTO;
@@ -22,7 +25,7 @@ import java.io.IOException;
 public class UserController {
 
     private final ImageService imageService;
-  
+
     private final UserService userService;
 
 
@@ -61,16 +64,23 @@ public class UserController {
         );
     }
 
-    @PatchMapping("/me/image")
+    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserImage(@RequestParam("image") MultipartFile image,
-                                             Authentication authentication) throws IOException {
+                                             @AuthenticationPrincipal UserPrincipal principal) throws IOException {
         try {
-            String username = authentication.getName();
-            imageService.uploadImage(Long.valueOf(username), image);
+            if (image.isEmpty()) {
+                return ResponseEntity.badRequest().body("Image file is empty");
+            }
+
+            imageService.uploadImage(principal.getUser().getUserId(), image);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            log.warn("NotSaveAvatarException in save image");
-            return ResponseEntity.badRequest().build();
+
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid image: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IOException e) {
+            log.error("Failed to save image", e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
