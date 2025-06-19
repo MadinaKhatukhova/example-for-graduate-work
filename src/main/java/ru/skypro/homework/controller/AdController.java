@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.AdsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
@@ -58,9 +59,11 @@ public class AdController {
         return ResponseEntity.ok(ads);
     }
 
-//    @PatchMapping("/{id}/image")
-//    public ResponseEntity<Void> updateAddPicture() {
-//        return ResponseEntity.ok().build();
-//    }
+    @PatchMapping("/{id}/image")
+    public ResponseEntity<Void> updateAddPicture(@PathVariable int  id,
+                                                 @RequestBody MultipartFile image) {
+        adsService.updateAdImage(id, image);
+        return ResponseEntity.ok().build();
+    }
 
 }
