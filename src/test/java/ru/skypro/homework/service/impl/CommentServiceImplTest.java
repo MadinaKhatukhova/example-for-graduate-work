@@ -60,7 +60,7 @@ class CommentServiceImplTest {
 
         when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
         when(commentRepository.save(any(CommentEntity.class))).thenReturn(savedComment);
-        when(commentMapper.toDto(savedComment)).thenReturn(expectedCommentDTO);
+        when(commentMapper.commentEntityToCommentDTO(savedComment)).thenReturn(expectedCommentDTO);
 
         // Act
         CommentDTO result = commentService.addComment(Math.toIntExact(adId), createComment);
@@ -100,8 +100,8 @@ class CommentServiceImplTest {
         commentDTO2.setText("Comment 2");
 
         when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
-        when(commentMapper.toDto(comment1)).thenReturn(commentDTO1);
-        when(commentMapper.toDto(comment2)).thenReturn(commentDTO2);
+        when(commentMapper.commentEntityToCommentDTO(comment1)).thenReturn(commentDTO1);
+        when(commentMapper.commentEntityToCommentDTO(comment2)).thenReturn(commentDTO2);
 
         // Act
         CommentsDTO result = commentService.getComments(Math.toIntExact(adId));
@@ -184,7 +184,7 @@ class CommentServiceImplTest {
 
         when(adsService.findById((long) Math.toIntExact(adId))).thenReturn(adEntity);
         when(commentRepository.save(existingComment)).thenReturn(updatedComment);
-        when(commentMapper.toDto(updatedComment)).thenReturn(expectedCommentDTO);
+        when(commentMapper.commentEntityToCommentDTO(updatedComment)).thenReturn(expectedCommentDTO);
 
         // Act
         CommentDTO result = commentService.updateComment(Math.toIntExact(adId), commentId, updateComment);
