@@ -14,28 +14,39 @@ import ru.skypro.homework.repository.CommentRepository;
 import java.util.List;
 
 public interface AdsService {
-    // Вовращает
+    // Вовращает ДТО объявления AdDTO
     AdDTO getAdDTO(AdEntity adEntity);
 
+    // Возвращает объявление
     AdEntity getAd(AdDTO adDTO);
 
+    // Возвращает все объявления
     List<AdDTO> getAllAds();
 
+    // Добавляет объявление
     AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, UserEntity userEntity);
 
+    // Добавляет комментарий к объявлению
     CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment);
 
+    // Возвращает объявление по его id
     ExtendedAdDTO getAdById(int id);
 
+    // Удаляет объявление
     void removeAd(int id);
 
+    // Обновляет объявление
     AdDTO updateAd(int id, CreateOrUpdateAdDTO ad);
 
+    // Обновляет изображение объявления
     void updateAdImage(int id, MultipartFile image);
 
+    // Возвращает объявления авторизованного пользователя
     AdsDTO getAdsForLoggedInUser(UserEntity userEntity);
 
+    // Проверяет является ли пользователь автором объявления
     boolean isAuthorAd(String email, Long adId);
 
+    // Возращает AdEntity по id
     AdEntity findById(Long id);
 }
