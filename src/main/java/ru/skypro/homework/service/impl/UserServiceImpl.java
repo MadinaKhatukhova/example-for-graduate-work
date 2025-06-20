@@ -3,6 +3,8 @@ package ru.skypro.homework.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,14 +29,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     //Находит пользователя по его идентификатору.
     public UserEntity findUser(Long userId) {
-        return userRepository.findById(userId)
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+        logger.debug("findUser - {}", userEntity);
+        return userEntity;
     }
 
     //Преобразует сущность пользователя в DTO.
@@ -58,7 +64,9 @@ public class UserServiceImpl implements UserService {
 
     //Находит пользователя по его email.
     public UserEntity findByUsername(String email) {
-        return userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByEmail(email);
+        logger.debug("findByUsername - {}", user);
+        return user;
     }
 
     //Обновляет информацию о пользователе.
@@ -73,6 +81,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setPhone(updateUser.getPhone());
         }
         saveUser(userEntity);
+        logger.debug("updateUser - {}", updateUser);
         return updateUser;
     }
 
@@ -88,11 +97,13 @@ public class UserServiceImpl implements UserService {
 
         // Проверяем текущий пароль
         if (!passwordEncoder.matches(newPasswordDTO.getCurrentPassword(), userEntity.getPassword())) {
+            logger.debug("updatePassword - Current password is incorrect");
             throw new NotEditUserPasswordException("Current password is incorrect");
         }
 
         // Устанавливаем и кодируем новый пароль
         userEntity.setPassword(passwordEncoder.encode(newPasswordDTO.getNewPassword()));
+        logger.debug("updatePassword - {}", userEntity);
         userRepository.save(userEntity);
     }
 

@@ -1,6 +1,8 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class AdsServiceImpl implements AdsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdsServiceImpl.class);
     @Autowired
     private AdRepository adRepository;
 
@@ -34,20 +38,26 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public AdDTO getAdDTO(AdEntity adEntity) {
-        return adMapper.adEntityToAdDTO(adEntity);
+        AdDTO ad = adMapper.adEntityToAdDTO(adEntity);
+        logger.debug("getAdDTO - {}", ad);
+        return ad;
     }
 
     @Override
     public AdEntity getAd(AdDTO adDTO) {
-        return adMapper.adDTOToAdEntityWithoutId(adDTO);
+        AdEntity ad = adMapper.adDTOToAdEntityWithoutId(adDTO);
+        logger.debug("getAd - {}", ad);
+        return ad;
     }
 
     @Override
     public List<AdDTO> getAllAds() {
         List<AdEntity> adEntities = adRepository.findAll();
-        return adEntities.stream()
+        List<AdDTO> ads = adEntities.stream()
                 .map(adMapper::adEntityToAdDTO)
                 .collect(Collectors.toList());
+        logger.debug("getAllAds - {}", ads);
+        return ads;
     }
 
     @Override
@@ -67,7 +77,9 @@ public class AdsServiceImpl implements AdsService {
         // Сохранение изображения и установка пути к изображению в сущность
         adEntity.setImage(image.getOriginalFilename());
         AdEntity savedAd = adRepository.save(adEntity);
-        return adMapper.adEntityToAdDTO(savedAd);
+        AdDTO ad = adMapper.adEntityToAdDTO(savedAd);
+        logger.debug("addAd");
+        return ad;
     }
 
     @Override
@@ -75,13 +87,17 @@ public class AdsServiceImpl implements AdsService {
         CommentEntity newComment = new CommentEntity();
         AdEntity byId;
         try {
+            logger.debug("byId - {}", findById(id.longValue()));
             byId = findById(id.longValue());
         } catch (Exception e) {
-            throw new RuntimeException("Не найдено объвление по его id");
+            logger.debug("Не найдено объявление по его id");
+            throw new RuntimeException("Не найдено объявление по его id");
         }
         newComment.setAdEntity(byId);
         newComment.setText(comment.getText());
-        return commentRepository.save(newComment);
+        CommentEntity commentEntity = commentRepository.save(newComment);
+        logger.debug("addCommentToAdd - {}", commentEntity);
+        return commentEntity;
     }
 
     @Override
@@ -89,14 +105,18 @@ public class AdsServiceImpl implements AdsService {
         Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
-            return adMapper.adEntityToExtendedAd(adEntity); // Преобразование в ExtendedAd
+            ExtendedAdDTO extendedAdDTO = adMapper.adEntityToExtendedAd(adEntity); // Преобразование в ExtendedAd
+            logger.debug("getAdById - {}", extendedAdDTO);
+            return extendedAdDTO;
         } else {
+            logger.debug("Ad not found");
             throw new RuntimeException("Ad not found");
         }
     }
 
     @Override
     public void removeAd(int id) {
+        logger.debug("removeAd with id - {}", id);
         adRepository.deleteById((long) id);
     }
 
@@ -107,8 +127,11 @@ public class AdsServiceImpl implements AdsService {
             AdEntity adEntity = adEntityOptional.get();
             adMapper.createOrUpdateAdToAdEntity(ad);
             AdEntity updatedAd = adRepository.save(adEntity);
-            return adMapper.adEntityToAdDTO(updatedAd); // Преобразование и возврат обновленного объявления
+            AdDTO updateAd = adMapper.adEntityToAdDTO(updatedAd); // Преобразование и возврат обновленного объявления
+            logger.debug("updateAd - {}", updateAd);
+            return updateAd;
         } else {
+            logger.debug("updateAd - Ad not found");
             throw new RuntimeException("Ad not found");
         }
     }
@@ -119,8 +142,10 @@ public class AdsServiceImpl implements AdsService {
         if (adEntityOptional.isPresent()) {
             AdEntity adEntity = adEntityOptional.get();
             adEntity.setImage(image.getOriginalFilename());
+            logger.debug("updateAdImage - {}", image.getOriginalFilename() );
             adRepository.save(adEntity);
         } else {
+            logger.debug("updateAdImage - Ad not found");
             throw new RuntimeException("Ad not found");
         }
     }
@@ -135,6 +160,7 @@ public class AdsServiceImpl implements AdsService {
         }
         adsDTO.setResults(result);
         adsDTO.setCount(result.size());
+        logger.debug("getAdsForLoggedInUser - {}", adsDTO);
         return adsDTO;
     }
 
