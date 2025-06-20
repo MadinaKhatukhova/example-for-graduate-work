@@ -5,12 +5,13 @@ import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
 import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
+import ru.skypro.homework.model.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface CommentService {
-    CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment);
+    CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment, UserEntity author);
 
     // Возвращает список комментариев к объявлению.
     CommentsDTO getComments(long adId);
@@ -21,4 +22,5 @@ public interface CommentService {
     // Обновляет комментарий у объявления.
     CommentDTO updateComment(long adId, long commentId, CreateOrUpdateCommentDTO comment);
 
+    boolean isCommentOwner(long commentId, long userId);
 }
