@@ -2,6 +2,8 @@ package ru.skypro.homework.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Transactional
 public class CommentServiceImpl implements CommentService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
     private final AdsService adsService;
@@ -34,6 +39,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment, UserEntity author) {
         AdEntity adEntity = adsService.findById(adId);
         if (adEntity == null) {
+            logger.debug("addComment - Ad not found with id: {}", adId);
             throw new RuntimeException("Ad not found with id: " + adId);
         }
 
@@ -53,13 +59,16 @@ public class CommentServiceImpl implements CommentService {
         newComment.setAuthorImage(authorImage);
 
         CommentEntity savedComment = commentRepository.save(newComment);
-        return commentMapper.commentEntityToCommentDTO(savedComment);
+        CommentDTO commentDTO = commentMapper.commentEntityToCommentDTO(savedComment);
+        logger.debug("addComment - {}", commentDTO);
+        return commentDTO;
     }
 
     @Override
     public CommentsDTO getComments(long adId) {
         AdEntity adEntity = adsService.findById(adId);
         if (adEntity == null) {
+            logger.debug("getComments - Ad not found with id: {}", adId);
             throw new RuntimeException("Ad not found with id: " + adId);
         }
 
@@ -71,6 +80,7 @@ public class CommentServiceImpl implements CommentService {
         CommentsDTO commentsDTO = new CommentsDTO();
         commentsDTO.setResults(result);
         commentsDTO.setCount(result.size());
+        logger.debug("getComments - {}", commentsDTO);
         return commentsDTO;
     }
 
@@ -80,9 +90,10 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
         if (!comment.getAdEntity().getId().equals(adId)) {
+            logger.debug("deleteComment - Comment does not belong to ad");
             throw new RuntimeException("Comment does not belong to ad");
         }
-
+        logger.debug("deleteComment - {}", comment);
         commentRepository.delete(comment);
     }
 
@@ -97,12 +108,15 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
         if (!existingComment.getAdEntity().getId().equals(adId)) {
+            logger.debug("updateComment - Comment does not belong to ad");
             throw new RuntimeException("Comment does not belong to ad");
         }
 
         existingComment.setText(comment.getText());
         CommentEntity updatedComment = commentRepository.save(existingComment);
-        return commentMapper.commentEntityToCommentDTO(updatedComment);
+        CommentDTO commentDTO = commentMapper.commentEntityToCommentDTO(updatedComment);
+        logger.debug("updateComment - {}", commentDTO);
+        return commentDTO;
     }
 
 }
