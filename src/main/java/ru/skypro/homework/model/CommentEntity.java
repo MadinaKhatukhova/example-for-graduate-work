@@ -34,7 +34,4 @@ public class CommentEntity {
     @JoinColumn(name = "ad_Entity_id")
     private AdEntity adEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
 }

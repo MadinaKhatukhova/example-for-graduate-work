@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
-import ru.skypro.homework.exception.AdNotFoundException;
-import ru.skypro.homework.exception.CommentNotFoundException;
 import ru.skypro.homework.model.AdEntity;
 import ru.skypro.homework.model.CommentEntity;
 
@@ -19,7 +17,6 @@ import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,8 +41,7 @@ public class CommentServiceImpl implements CommentService {
 
         CommentEntity newComment = new CommentEntity();
         newComment.setAdEntity(adEntity);
-        newComment.setUserEntity(fullAuthor);
-        newComment.setAuthor(fullAuthor); // дублирование, нужно выбрать одно поле
+        newComment.setAuthor(fullAuthor);
         newComment.setText(comment.getText());
         newComment.setCreatedAt(LocalDateTime.now());
         newComment.setAuthorFirstName(fullAuthor.getFirstName());
@@ -92,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean isCommentOwner(long commentId, long userId) {
-        return commentRepository.existsByCommentIdAndUserEntityUserId(commentId, userId);
+        return commentRepository.existsByCommentIdAndAuthorUserId(commentId, userId);
     }
 
     @Override
