@@ -35,7 +35,7 @@ public class MapperConfig {
             @Override
             protected Integer convert(LocalDateTime source) {
                 return source != null ?
-                        (int) source.toEpochSecond(ZoneOffset.UTC) :
+                        (int) source.toEpochSecond(ZoneOffset.UTC)/1000:
                         0;
             }
         });
