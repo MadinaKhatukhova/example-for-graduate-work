@@ -14,6 +14,7 @@ import ru.skypro.homework.repository.CommentRepository;
 import java.util.List;
 
 public interface AdsService {
+    // Вовращает
     AdDTO getAdDTO(AdEntity adEntity);
 
     AdEntity getAd(AdDTO adDTO);

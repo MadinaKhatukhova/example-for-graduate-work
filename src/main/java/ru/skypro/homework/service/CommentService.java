@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface CommentService {
+    // Добавляет комментарий
     CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment, UserEntity author);
 
     // Возвращает список комментариев к объявлению.
@@ -22,5 +23,6 @@ public interface CommentService {
     // Обновляет комментарий у объявления.
     CommentDTO updateComment(long adId, long commentId, CreateOrUpdateCommentDTO comment);
 
+    // Возвращает true, если пользователь является владельцем комментария
     boolean isCommentOwner(long commentId, long userId);
 }
