@@ -24,7 +24,7 @@ public class UserEntity {
     //private String username;
     private String password;
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "author")
     private List<CommentEntity> commentEntity;
 
     @OneToMany(mappedBy = "userEntity")

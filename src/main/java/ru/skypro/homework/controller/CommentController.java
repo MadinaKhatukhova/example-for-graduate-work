@@ -2,7 +2,9 @@ package ru.skypro.homework.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.homework.config.UserPrincipal;
 import ru.skypro.homework.dto.CommentDTO;
 import ru.skypro.homework.dto.CommentsDTO;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDTO;
@@ -19,32 +21,43 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<CommentsDTO> getComments(@PathVariable long adId) {
-        CommentsDTO comments = commentService.getComments(adId);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    public ResponseEntity<CommentsDTO> getComments(@PathVariable long id) {
+        CommentsDTO comments = commentService.getComments(id);
+        return ResponseEntity.ok(comments);
     }
 
     @PostMapping
-    public ResponseEntity<CommentDTO> addComment(@PathVariable long adId,
-                                                 @RequestBody CreateOrUpdateCommentDTO comment) {
-        CommentDTO addedComment = commentService.addComment(adId, comment);
+    public ResponseEntity<CommentDTO> addComment(@PathVariable long id,
+                                                 @RequestBody CreateOrUpdateCommentDTO comment,
+                                                 @AuthenticationPrincipal UserPrincipal userPrincipal){
+        CommentDTO addedComment = commentService.addComment(id, comment, userPrincipal.getUser());
         return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable long adId,
-                                              @PathVariable long commentId) {
-        commentService.deleteComment(adId, commentId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteComment(@PathVariable long id,
+                                              @PathVariable long commentId,
+                                              @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        if (commentService.isCommentOwner(commentId, userPrincipal.getUser().getUserId())) {
+            commentService.deleteComment(id, commentId);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @PatchMapping("/{commentId}")
-    public ResponseEntity<CommentDTO> updateComment(@PathVariable long adId,
-                                                    @PathVariable long commentId,
-                                                    @RequestBody CreateOrUpdateCommentDTO comment) {
-        CommentDTO updatedComment = commentService.updateComment(adId, commentId, comment);
-        return new ResponseEntity<>(updatedComment, HttpStatus.OK);
+    public ResponseEntity<CommentDTO> updateComment(
+            @PathVariable long id,
+            @PathVariable long commentId,
+            @RequestBody CreateOrUpdateCommentDTO comment,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        if (commentService.isCommentOwner(commentId, userPrincipal.getUser().getUserId())) {
+            CommentDTO updatedComment = commentService.updateComment(id, commentId, comment);
+            return ResponseEntity.ok(updatedComment);
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+
 }
 
 

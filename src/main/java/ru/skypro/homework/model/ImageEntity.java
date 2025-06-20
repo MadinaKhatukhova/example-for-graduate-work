@@ -19,6 +19,7 @@ public class ImageEntity {
     private String mediaType;
     @Lob
     private byte[] data;
+
     @OneToOne
     @JoinColumn(name = "ad_id")
     private AdEntity ad;
