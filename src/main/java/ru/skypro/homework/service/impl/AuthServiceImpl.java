@@ -80,6 +80,7 @@ public class AuthServiceImpl implements AuthService {
         createdUser.setFirstName(register.getFirstName());
         createdUser.setLastName(register.getLastName());
         createdUser.setPhone(register.getPhone());
+        createdUser.setRole(register.getRole().toString());
 
         userService.saveUser(createdUser);
 
