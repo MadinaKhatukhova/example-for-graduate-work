@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ads")
+@CrossOrigin(value = "http://localhost:3000")
 public class AdController {
     @Autowired
     private AdsService adsService;
@@ -29,9 +30,12 @@ public class AdController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<AdDTO>> getAllAds() {
+    public ResponseEntity<AdsDTO> getAllAds() {
         List<AdDTO> ads = adsService.getAllAds();
-        return ResponseEntity.ok(ads);
+        AdsDTO response = new AdsDTO();
+        response.setResults(ads);
+        response.setCount(ads.size());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
@@ -56,7 +60,7 @@ public class AdController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<AdDTO> updateAddInfo(@PathVariable int id,
-                                           @RequestBody CreateOrUpdateAdDTO ad) {
+                                               @RequestBody CreateOrUpdateAdDTO ad) {
         AdDTO updateAd = adsService.updateAd(id, ad);
         return ResponseEntity.ok(updateAd);
     }
@@ -76,3 +80,4 @@ public class AdController {
     }
 
 }
+

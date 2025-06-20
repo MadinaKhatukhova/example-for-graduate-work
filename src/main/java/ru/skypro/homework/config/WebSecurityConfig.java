@@ -38,6 +38,7 @@ public class WebSecurityConfig {
             "/login",
             "/register",
             "/ads",
+            "/ads/**",
             "/image/**"
     };
 
@@ -54,7 +55,7 @@ public class WebSecurityConfig {
                                 authorization
                                         .requestMatchers(AUTH_WHITELIST)
                                         .permitAll()
-                                        .requestMatchers("/ads/**", "/users/**")
+                                        .requestMatchers( "/users/**")
                                         .authenticated())
 //                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler)
 //                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
