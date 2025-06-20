@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -17,11 +18,12 @@ import lombok.Setter;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long commentId;
 
     private String authorImage;
     private String authorFirstName;
-    private Integer createdAt;
+    private LocalDateTime createdAt;
     private String text;
 
     @ManyToOne
@@ -29,7 +31,7 @@ public class CommentEntity {
     private UserEntity author;
 
     @ManyToOne
-    @JoinColumn(name = "adEntityId")
+    @JoinColumn(name = "ad_Entity_id")
     private AdEntity adEntity;
 
     @ManyToOne

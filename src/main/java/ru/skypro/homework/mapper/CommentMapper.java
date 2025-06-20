@@ -21,9 +21,14 @@ public class CommentMapper {
         return mapper.getMapper().map(commentEntity, CommentDTO.class);
     }
 
-    public CommentEntity commentDTOToCommentEntityWithoutId(CommentDTO commentDTO) {
-        CommentEntity commentEntity = mapper.getMapper().map(commentDTO, CommentEntity.class);
-        commentEntity.setAdEntity(commentEntity.getAdEntity());
-        return commentEntity;
-    }
+//    public CommentEntity commentDTOToCommentEntityWithoutId(CommentDTO commentDTO) {
+//        CommentEntity commentEntity = mapper.getMapper().map(commentDTO, CommentEntity.class);
+//        commentEntity.setAdEntity(commentEntity.getAdEntity());
+//        return commentEntity;
+//    }
+
+public CommentEntity createOrUpdateCommentDTOToCommentEntity(CreateOrUpdateCommentDTO dto) {
+    return mapper.getMapper().map(dto, CommentEntity.class);
+}
+
 }

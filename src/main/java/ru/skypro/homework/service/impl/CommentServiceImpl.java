@@ -1,5 +1,6 @@
 package ru.skypro.homework.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CommentDTO;
@@ -18,11 +19,14 @@ import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
@@ -36,14 +40,21 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException("Ad not found with id: " + adId);
         }
 
+        UserEntity fullAuthor = userService.getUserById(author.getUserId());
+
         CommentEntity newComment = new CommentEntity();
         newComment.setAdEntity(adEntity);
-        newComment.setUserEntity(author);
-        newComment.setAuthor(author); // дублирование, нужно выбрать одно поле
+        newComment.setUserEntity(fullAuthor);
+        newComment.setAuthor(fullAuthor); // дублирование, нужно выбрать одно поле
         newComment.setText(comment.getText());
-        newComment.setCreatedAt((int) (System.currentTimeMillis() / 1000L));
-        newComment.setAuthorFirstName(author.getFirstName());
-        newComment.setAuthorImage(author.getImageEntity() != null ? author.getImageEntity().getMediaType() : "");
+        newComment.setCreatedAt(LocalDateTime.now());
+        newComment.setAuthorFirstName(fullAuthor.getFirstName());
+
+        String authorImage = "";
+        if(fullAuthor.getImageEntity() != null){
+            authorImage = fullAuthor.getImageEntity().getFilePath();
+        }
+        newComment.setAuthorImage(authorImage);
 
         CommentEntity savedComment = commentRepository.save(newComment);
         return commentMapper.commentEntityToCommentDTO(savedComment);

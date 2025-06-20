@@ -12,7 +12,4 @@ public class CommentDTO {
     private Integer pk;
     private String text;
 
-    public CommentDTO() {
-
-    }
 }

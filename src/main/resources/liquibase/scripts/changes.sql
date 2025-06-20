@@ -96,3 +96,12 @@ ALTER TABLE image RENAME COLUMN id to imageId
 
 --changeset Dm:7
 ALTER TABLE image RENAME COLUMN imageId to image_id
+
+--changeset Dm:8
+ALTER TABLE comments
+ALTER COLUMN comment_id ADD GENERATED ALWAYS AS IDENTITY;
+
+--changeset Dm:9
+ALTER TABLE comments
+ALTER COLUMN created_at TYPE TIMESTAMP
+ USING to_timestamp(created_at) AT TIME ZONE 'UTC';

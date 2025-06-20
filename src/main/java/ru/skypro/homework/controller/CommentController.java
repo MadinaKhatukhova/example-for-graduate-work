@@ -21,25 +21,25 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<CommentsDTO> getComments(@PathVariable long adId) {
-        CommentsDTO comments = commentService.getComments(adId);
+    public ResponseEntity<CommentsDTO> getComments(@PathVariable long id) {
+        CommentsDTO comments = commentService.getComments(id);
         return ResponseEntity.ok(comments);
     }
 
     @PostMapping
-    public ResponseEntity<CommentDTO> addComment(@PathVariable long adId,
+    public ResponseEntity<CommentDTO> addComment(@PathVariable long id,
                                                  @RequestBody CreateOrUpdateCommentDTO comment,
                                                  @AuthenticationPrincipal UserPrincipal userPrincipal){
-        CommentDTO addedComment = commentService.addComment(adId, comment, userPrincipal.getUser());
+        CommentDTO addedComment = commentService.addComment(id, comment, userPrincipal.getUser());
         return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable long adId,
+    public ResponseEntity<Void> deleteComment(@PathVariable long id,
                                               @PathVariable long commentId,
                                               @AuthenticationPrincipal UserPrincipal userPrincipal) {
         if (commentService.isCommentOwner(commentId, userPrincipal.getUser().getUserId())) {
-            commentService.deleteComment(adId, commentId);
+            commentService.deleteComment(id, commentId);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -47,12 +47,12 @@ public class CommentController {
 
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommentDTO> updateComment(
-            @PathVariable long adId,
+            @PathVariable long id,
             @PathVariable long commentId,
             @RequestBody CreateOrUpdateCommentDTO comment,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
         if (commentService.isCommentOwner(commentId, userPrincipal.getUser().getUserId())) {
-            CommentDTO updatedComment = commentService.updateComment(adId, commentId, comment);
+            CommentDTO updatedComment = commentService.updateComment(id, commentId, comment);
             return ResponseEntity.ok(updatedComment);
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
