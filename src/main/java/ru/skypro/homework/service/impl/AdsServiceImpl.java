@@ -36,11 +36,6 @@ public class AdsServiceImpl implements AdsService {
 
     private final AdMapper adMapper;
 
-    /**
-     * Преобразует сущность объявления в DTO
-     * @param adEntity
-     * @return adDto
-     */
     @Override
     public AdDTO getAdDTO(AdEntity adEntity) {
         AdDTO ad = adMapper.adEntityToAdDTO(adEntity);
@@ -48,11 +43,6 @@ public class AdsServiceImpl implements AdsService {
         return ad;
     }
 
-    /**
-     * Преобразует DTO объявления в сущность
-     * @param adDTO
-     * @return adEntity
-     */
     @Override
     public AdEntity getAd(AdDTO adDTO) {
         AdEntity ad = adMapper.adDTOToAdEntityWithoutId(adDTO);
@@ -60,10 +50,6 @@ public class AdsServiceImpl implements AdsService {
         return ad;
     }
 
-    /**
-     * Возвращает все объявления
-     * @return ads
-     */
     @Override
     public List<AdDTO> getAllAds() {
         List<AdEntity> adEntities = adRepository.findAll();
@@ -74,13 +60,6 @@ public class AdsServiceImpl implements AdsService {
         return ads;
     }
 
-    /**
-     * Сохраняет объявление в БД
-     * @param properties
-     * @param image
-     * @param userEntity
-     * @return adDto
-     */
     @Override
     public AdDTO addAd(CreateOrUpdateAdDTO properties, MultipartFile image, UserEntity userEntity) {
         AdEntity adEntity = adMapper.createOrUpdateAdToAdEntity(properties);
@@ -103,12 +82,6 @@ public class AdsServiceImpl implements AdsService {
         return ad;
     }
 
-    /**
-     * Добавляет комментарий к объявлению и сохраняет в БД
-     * @param id
-     * @param comment
-     * @return commentEntity
-     */
     @Override
     public CommentEntity addCommentToAdd(Integer id, CreateOrUpdateCommentDTO comment) {
         CommentEntity newComment = new CommentEntity();
@@ -127,11 +100,6 @@ public class AdsServiceImpl implements AdsService {
         return commentEntity;
     }
 
-    /**
-     * Ищет по id объявление в БД, преобразует его в extendedAdDTO
-     * @param id
-     * @return extendedAdDTO
-     */
     @Override
     public ExtendedAdDTO getAdById(int id) {
         Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
@@ -146,22 +114,12 @@ public class AdsServiceImpl implements AdsService {
         }
     }
 
-    /**
-     * Удаляет объявление по id
-     * @param id
-     */
     @Override
     public void removeAd(int id) {
         logger.debug("removeAd with id - {}", id);
         adRepository.deleteById((long) id);
     }
 
-    /**
-     * Обновляет объявление
-     * @param id
-     * @param ad
-     * @return updateAd
-     */
     @Override
     public AdDTO updateAd(int id, CreateOrUpdateAdDTO ad) {
         Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);
@@ -178,11 +136,6 @@ public class AdsServiceImpl implements AdsService {
         }
     }
 
-    /**
-     * Обновляет изображение в объявлении
-     * @param id
-     * @param image
-     */
     @Override
     public void updateAdImage(int id, MultipartFile image) {
         Optional<AdEntity> adEntityOptional = adRepository.findById((long) id);

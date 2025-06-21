@@ -35,11 +35,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * Находит пользователя по его идентификатору
-     * @param userId
-     * @return userEntity
-     */
     public UserEntity findUser(Long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -47,20 +42,10 @@ public class UserServiceImpl implements UserService {
         return userEntity;
     }
 
-    /**
-     * Преобразует сущность пользователя в DTO
-     * @param userEntity
-     * @return userDto
-     */
     public UserDTO getUserDTO(UserEntity userEntity) {
         return userMapper.userEntityToUserDTO(userEntity);
     }
 
-    /**
-     * Находит пользователя по его идентификатору
-     * @param id
-     * @return userEntity
-     */
     public UserEntity getUserById(Long id) {
         UserEntity byUserId = userRepository.findByUserId(id);
         if (byUserId == null) {
@@ -69,31 +54,16 @@ public class UserServiceImpl implements UserService {
         return byUserId;
     }
 
-    /**
-     * Сохраняет пользователя
-     * @param userEntity
-     */
     public void saveUser(UserEntity userEntity) {
         userRepository.save(userEntity);
     }
 
-    /**
-     * Находит пользователя по его email
-     * @param email
-     * @return user
-     */
     public UserEntity findByUsername(String email) {
         UserEntity user = userRepository.findByEmail(email);
         logger.debug("findByUsername - {}", user);
         return user;
     }
 
-    /**
-     * Обновляет информацию о пользователе
-     * @param userEntity
-     * @param updateUser
-     * @return updateUser
-     */
     public UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser) {
         if (updateUser.getFirstName() != null) {
             userEntity.setFirstName(updateUser.getFirstName());
@@ -109,11 +79,6 @@ public class UserServiceImpl implements UserService {
         return updateUser;
     }
 
-    /**
-     * Находит DTO пользователя по его идентификатору
-     * @param userId
-     * @return userDto
-     */
     public UserDTO findUserDTO(Long userId) {
         return getUserDTO(findUser(userId));
     }

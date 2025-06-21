@@ -35,13 +35,6 @@ public class CommentServiceImpl implements CommentService {
     private final AdsService adsService;
     private final UserService userService;
 
-    /**
-     * Добавляет комментарий и сохраняет в БД
-     * @param adId
-     * @param comment
-     * @param author
-     * @return commentDTO
-     */
     @Override
     public CommentDTO addComment(long adId, CreateOrUpdateCommentDTO comment, UserEntity author) {
         AdEntity adEntity = adsService.findById(adId);
@@ -71,11 +64,6 @@ public class CommentServiceImpl implements CommentService {
         return commentDTO;
     }
 
-    /**
-     * Ищет все комментарии объявления по id
-     * @param adId
-     * @return commentsDTO
-     */
     @Override
     public CommentsDTO getComments(long adId) {
         AdEntity adEntity = adsService.findById(adId);
@@ -96,11 +84,6 @@ public class CommentServiceImpl implements CommentService {
         return commentsDTO;
     }
 
-    /**
-     * Удаляет комментарий объявления по id комментария и объявления
-     * @param adId
-     * @param commentId
-     */
     @Override
     public void deleteComment(long adId, long commentId) {
         CommentEntity comment = commentRepository.findById(commentId)
@@ -119,13 +102,6 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.existsByCommentIdAndAuthorUserId(commentId, userId);
     }
 
-    /**
-     * Обновляет комментарий объявления
-     * @param adId
-     * @param commentId
-     * @param comment
-     * @return commentDTO
-     */
     @Override
     public CommentDTO updateComment(long adId, long commentId, CreateOrUpdateCommentDTO comment) {
         CommentEntity existingComment = commentRepository.findById(commentId)
