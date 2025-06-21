@@ -36,8 +36,6 @@ public interface UserService {
      */
     void saveUser(UserEntity userEntity);
 
-    //метод нахождения пользователя по его email
-
     /**
      * Поиск пользователя по email
      * @param email
@@ -53,16 +51,12 @@ public interface UserService {
      */
     UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser);
 
-    //метод нахождения ДТО пользователя по его id
-
     /**
      * Поиск DTO пользователя по его id
      * @param userId
      * @return userDTO
      */
     UserDTO findUserDTO(Long userId);
-
-    //метод обновления пароля пользователя
 
     /**
      * Обновляет пароль пользователя
