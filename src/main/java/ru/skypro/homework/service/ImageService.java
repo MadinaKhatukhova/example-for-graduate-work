@@ -14,5 +14,4 @@ public interface ImageService {
 
     //метод сохранения image entity
     void save(ImageEntity imageEntity);
-
 }

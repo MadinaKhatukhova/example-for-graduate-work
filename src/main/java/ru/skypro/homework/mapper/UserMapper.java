@@ -2,7 +2,6 @@ package ru.skypro.homework.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.config.MapperConfig;
 import ru.skypro.homework.dto.Register;

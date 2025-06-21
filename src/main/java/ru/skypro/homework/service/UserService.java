@@ -9,28 +9,60 @@ import java.util.Optional;
 
 public interface UserService {
 
-    //метод
+    /**
+     * Поиск пользователя по id
+     * @param userId
+     * @return userEntity
+     */
     UserEntity findUser(Long userId);
 
-    //метод получения ДТО пользователя
+    /**
+     * Возвращает DTO пользователя
+     * @param userEntity
+     * @return userDTO
+     */
     UserDTO getUserDTO(UserEntity userEntity);
 
-    //метод получения пользователя по его id
+    /**
+     * Возвращает пользователя
+     * @param id
+     * @return userEntity
+     */
     UserEntity getUserById(Long id);
 
-    //метод сохранения пользователя
+    /**
+     * Сохраняет пользователя
+     * @param userEntity
+     */
     void saveUser(UserEntity userEntity);
 
-    //метод нахождения пользователя по его email
+    /**
+     * Поиск пользователя по email
+     * @param email
+     * @return userEntity
+     */
     UserEntity findByUsername(String email);
 
-    //метод обновления пользователя
+    /**
+     * Обновляет пользователя
+     * @param userEntity
+     * @param updateUser
+     * @return updateUserDTO
+     */
     UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser);
 
-    //метод нахождения ДТО пользователя по его id
+    /**
+     * Поиск DTO пользователя по его id
+     * @param userId
+     * @return userDTO
+     */
     UserDTO findUserDTO(Long userId);
 
-    //метод обновления пароля пользователя
+    /**
+     * Обновляет пароль пользователя
+     * @param userId
+     * @param newPasswordDTO
+     */
     void updatePassword(Long userId, NewPasswordDTO newPasswordDTO);
 
 }
