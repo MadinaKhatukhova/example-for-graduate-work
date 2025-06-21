@@ -27,9 +27,6 @@ public class WebSecurityConfig {
 
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-
-
-
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
