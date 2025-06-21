@@ -140,7 +140,7 @@ class CommentServiceImplTest {
 
         adEntity.setCommentEntities(List.of(comment));
 
-        when(adsService.findById(adId)).thenReturn(adEntity);
+        when(commentRepository.findById(commentId)).thenReturn(Optional.of(comment));
 
         // Act
         commentService.deleteComment(adId, commentId);
