@@ -1,5 +1,7 @@
 package ru.skypro.homework.config;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,12 +10,10 @@ import ru.skypro.homework.model.UserEntity;
 import java.util.Collection;
 import java.util.List;
 
+@AllArgsConstructor
+@Data
 public class UserPrincipal implements UserDetails {
     private final UserEntity user;
-
-    public UserPrincipal(UserEntity user){
-        this.user = user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

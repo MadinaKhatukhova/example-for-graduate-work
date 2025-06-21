@@ -30,4 +30,8 @@ public class AdEntity {
 
     @OneToMany(mappedBy = "adEntity")
     private List<CommentEntity> commentEntities;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private ImageEntity imageEntity;
 }

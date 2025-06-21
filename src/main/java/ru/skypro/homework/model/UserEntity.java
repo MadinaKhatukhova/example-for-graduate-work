@@ -1,9 +1,6 @@
 package ru.skypro.homework.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +24,15 @@ public class UserEntity {
     //private String username;
     private String password;
 
+    @OneToMany(mappedBy = "author")
+    private List<CommentEntity> commentEntity;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<AdEntity> adEntity;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private ImageEntity imageEntity;
 
 }
 
