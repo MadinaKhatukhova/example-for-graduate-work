@@ -49,7 +49,9 @@ public class AdMapper {
         ExtendedAdDTO extendedAd = new ExtendedAdDTO();
         extendedAd.setPk(adEntity.getId().intValue()); // Приводим Long к Integer
         extendedAd.setImage(adEntity.getImageEntity() == null ? "" : downloadUrl + adEntity.getImageEntity().getImageId());
-
+        extendedAd.setDescription(adEntity.getDescription());
+        extendedAd.setAuthorFirstName(adEntity.getUserEntity().getFirstName());
+        extendedAd.setAuthorLastName(adEntity.getUserEntity().getLastName());
         extendedAd.setPrice(adEntity.getPrice());
         extendedAd.setTitle(adEntity.getTitle());
         return extendedAd;

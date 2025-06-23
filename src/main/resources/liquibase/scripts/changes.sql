@@ -117,3 +117,6 @@ ALTER TABLE comments
 DROP CONSTRAINT fk_comments_user;
 ALTER TABLE comments
 DROP COLUMN user_id;
+
+ --changeset Dm:12
+ALTER TABLE advertisement ADD COLUMN description VARCHAR(255);

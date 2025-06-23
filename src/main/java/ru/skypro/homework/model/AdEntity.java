@@ -23,6 +23,7 @@ public class AdEntity {
     private String image;
     private Integer price;
     private String title;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
