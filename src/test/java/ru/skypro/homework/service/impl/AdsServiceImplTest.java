@@ -12,6 +12,7 @@ import ru.skypro.homework.dto.CreateOrUpdateAdDTO;
 import ru.skypro.homework.dto.ExtendedAdDTO;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.AdEntity;
+import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.repository.AdRepository;
 
 import java.util.List;
@@ -30,7 +31,7 @@ class AdsServiceImplTest {
     private AdMapper adMapper;
 
     @Mock
-    private Authentication authentication;
+    private UserEntity userEntity;
 
     @InjectMocks
     private AdsServiceImpl adsService;
@@ -46,8 +47,8 @@ class AdsServiceImplTest {
         AdDTO adDTO2 = new AdDTO();
 
         when(adRepository.findAll()).thenReturn(adEntities);
-        when(adMapper.toDto(adEntity1)).thenReturn(adDTO1);
-        when(adMapper.toDto(adEntity2)).thenReturn(adDTO2);
+        when(adMapper.adEntityToAdDTO(adEntity1)).thenReturn(adDTO1);
+        when(adMapper.adEntityToAdDTO(adEntity2)).thenReturn(adDTO2);
 
         // Act
         List<AdDTO> result = adsService.getAllAds();
@@ -81,10 +82,10 @@ class AdsServiceImplTest {
 
         when(adMapper.createOrUpdateAdToAdEntity(createAdDTO)).thenReturn(savedAdEntity);
         when(adRepository.save(savedAdEntity)).thenReturn(savedAdEntity);
-        when(adMapper.toDto(savedAdEntity)).thenReturn(expectedAdDTO);
+        when(adMapper.adEntityToAdDTO(savedAdEntity)).thenReturn(expectedAdDTO);
 
         // Act
-        AdDTO result = adsService.addAd(createAdDTO, image, authentication);
+        AdDTO result = adsService.addAd(createAdDTO, image, userEntity);
 
         // Assert
         assertNotNull(result);

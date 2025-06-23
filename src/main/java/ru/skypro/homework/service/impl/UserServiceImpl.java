@@ -3,7 +3,10 @@ package ru.skypro.homework.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -18,27 +21,31 @@ import ru.skypro.homework.model.UserEntity;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.UserService;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    //Находит пользователя по его идентификатору.
     public UserEntity findUser(Long userId) {
-        return userRepository.findById(userId)
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+        logger.debug("findUser - {}", userEntity);
+        return userEntity;
     }
 
-    //Преобразует сущность пользователя в DTO.
     public UserDTO getUserDTO(UserEntity userEntity) {
         return userMapper.userEntityToUserDTO(userEntity);
     }
 
-    //Находит пользователя по его идентификатору.
     public UserEntity getUserById(Long id) {
         UserEntity byUserId = userRepository.findByUserId(id);
         if (byUserId == null) {
@@ -47,19 +54,17 @@ public class UserServiceImpl implements UserService {
         return byUserId;
     }
 
-    //Сохраняет пользователя.
     public void saveUser(UserEntity userEntity) {
         userRepository.save(userEntity);
     }
 
-    //Находит пользователя по его email.
     public UserEntity findByUsername(String email) {
-        return userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByEmail(email);
+        logger.debug("findByUsername - {}", user);
+        return user;
     }
 
-    //Обновляет информацию о пользователе.
-    public UpdateUserDTO updateUser(Long userId, UpdateUserDTO updateUser) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
+    public UpdateUserDTO updateUser(UserEntity userEntity, UpdateUserDTO updateUser) {
         if (updateUser.getFirstName() != null) {
             userEntity.setFirstName(updateUser.getFirstName());
         }
@@ -70,22 +75,29 @@ public class UserServiceImpl implements UserService {
             userEntity.setPhone(updateUser.getPhone());
         }
         saveUser(userEntity);
+        logger.debug("updateUser - {}", updateUser);
         return updateUser;
     }
 
-    //Находит DTO пользователя по его идентификатору.
     public UserDTO findUserDTO(Long userId) {
         return getUserDTO(findUser(userId));
     }
 
     //Обновляет пароль пользователя.
     public void updatePassword(Long userId, NewPasswordDTO newPasswordDTO) {
-        UserEntity userEntity = userRepository.findByUserId(userId);
-        if (userEntity.getPassword().equals(newPasswordDTO.getCurrentPassword())) {
-            userEntity.setPassword(newPasswordDTO.getNewPassword());
-        } else {
-            throw new NotEditUserPasswordException("not edited password");
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // Проверяем текущий пароль
+        if (!passwordEncoder.matches(newPasswordDTO.getCurrentPassword(), userEntity.getPassword())) {
+            logger.debug("updatePassword - Current password is incorrect");
+            throw new NotEditUserPasswordException("Current password is incorrect");
         }
+
+        // Устанавливаем и кодируем новый пароль
+        userEntity.setPassword(passwordEncoder.encode(newPasswordDTO.getNewPassword()));
+        logger.debug("updatePassword - {}", userEntity);
+        userRepository.save(userEntity);
     }
 
 }

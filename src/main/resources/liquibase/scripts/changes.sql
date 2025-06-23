@@ -65,3 +65,58 @@ ALTER TABLE image
 
 --changeset Dm:2
 CREATE SEQUENCE IF NOT EXISTS users_seq START WITH 1 INCREMENT BY 50;
+
+
+--changeset Dm:3
+ALTER TABLE advertisement ADD COLUMN image_id BIGINT;
+ALTER TABLE advertisement ADD CONSTRAINT fk_advertisement_image
+    FOREIGN KEY (image_id) REFERENCES image(id);
+
+--changeset Dm:4
+ALTER TABLE comments ADD COLUMN user_entity_id BIGINT;
+ALTER TABLE comments ADD CONSTRAINT fk_comment_user
+    FOREIGN KEY (user_entity_id) REFERENCES users(user_id);
+
+ALTER TABLE advertisement ADD COLUMN user_entity_id BIGINT;
+ALTER TABLE advertisement ADD CONSTRAINT fk_ad_user
+    FOREIGN KEY (user_entity_id) REFERENCES users(user_id);
+
+
+ALTER TABLE users ADD COLUMN image_id BIGINT;
+ALTER TABLE users ADD CONSTRAINT fk_user_image
+    FOREIGN KEY (image_id) REFERENCES image(id);
+
+--changeset Dm:5
+ALTER TABLE comments ADD COLUMN user_id BIGINT NOT NULL;
+ALTER TABLE comments ADD CONSTRAINT fk_comments_user
+    FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+--changeset Dm:6
+ALTER TABLE image RENAME COLUMN id to imageId
+
+--changeset Dm:7
+ALTER TABLE image RENAME COLUMN imageId to image_id
+
+--changeset Dm:8
+ALTER TABLE comments
+ALTER COLUMN comment_id ADD GENERATED ALWAYS AS IDENTITY;
+
+--changeset Dm:9
+ALTER TABLE comments
+ALTER COLUMN created_at TYPE TIMESTAMP
+ USING to_timestamp(created_at) AT TIME ZONE 'UTC';
+
+--changeset Dm:10
+ALTER TABLE comments
+DROP CONSTRAINT fk_comment_user;
+ALTER TABLE comments
+DROP COLUMN user_entity_id
+
+--changeset Dm:11
+ALTER TABLE comments
+DROP CONSTRAINT fk_comments_user;
+ALTER TABLE comments
+DROP COLUMN user_id;
+
+ --changeset Dm:12
+ALTER TABLE advertisement ADD COLUMN description VARCHAR(255);
